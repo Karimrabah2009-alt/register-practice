@@ -664,319 +664,472 @@ input:focus {
 }
     </style>
 </head>
-<body>
-    <main class="auth-shell">
+  <body>
 
-  <!-- LINKE SEITE -->
-  <section class="auth-left">
+  <main class="auth-shell">
 
-    <header class="brand">
-      <div class="brand-icon">K'🇪🇺</div>
-      <span>Technologies</span>
-    </header>
+    <!-- =========================
+         LINKE SEITE
+    ========================== -->
 
+    <section class="auth-left">
 
-    <div class="auth-content">
-
-      <!-- =========================
-           REGISTRIERUNG
-      ========================== -->
-
-      <section id="registerView">
-
-        <p class="eyebrow">NEUER ACCOUNT</p>
-
-        <h1>Willkommen.</h1>
-
-        <p class="description">
-          Erstelle deinen Account und verwalte deine Daten
-          anschließend sicher über dein persönliches Dashboard.
-        </p>
+      <header class="brand">
+        <div class="brand-icon">K'🇪🇺</div>
+        <span>Technologies</span>
+      </header>
 
 
-        <form id="registerForm">
-
-          <!-- NAME -->
-          <div class="field">
-
-            <label for="name">Name</label>
-
-            <div class="input-wrapper">
-
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M20 21a8 8 0 0 0-16 0M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                />
-              </svg>
-
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Dein Name" autocomplete="name">
-            </div>
-          </div>
+      <div class="auth-content">
 
 
-          <!-- EMAIL -->
-          <div class="field">
+        <!-- =========================
+             REGISTRIERUNG
+        ========================== -->
 
-            <label for="email">E-Mail</label>
+        <section id="registerView">
 
-            <div class="input-wrapper">
+          <p class="eyebrow">
+            NEUER ACCOUNT
+          </p>
 
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
-                />
-              </svg>
+          <h1>
+            Willkommen.
+          </h1>
 
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="name@example.com"
-                autocomplete="email"
-              >
+          <p class="description">
+            Erstelle deinen Account und verwalte deine Daten
+            anschließend sicher über dein persönliches Dashboard.
+          </p>
+
+
+          <form id="registerForm">
+
+
+            <!-- NAME -->
+
+            <div class="field">
+
+              <label for="name">
+                Name
+              </label>
+
+              <div class="input-wrapper">
+
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M20 21a8 8 0 0 0-16 0M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                  />
+                </svg>
+
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Dein Name"
+                  autocomplete="name"
+                >
+
+              </div>
 
             </div>
-          </div>
 
 
-          <!-- PASSWORD -->
-          <div class="field">
+            <!-- EMAIL -->
 
-            <label for="password">Passwort</label>
+            <div class="field">
 
-            <div class="input-wrapper">
+              <label for="email">
+                E-Mail
+              </label>
 
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
-                />
-              </svg>
+              <div class="input-wrapper">
 
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Mindestens 8 Zeichen"
-                autocomplete="new-password"
-              >
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
+                  />
+                </svg>
 
-            </div>
-          </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  autocomplete="email"
+                >
 
-
-          <button class="submit-btn" type="submit">
-            <span>Account erstellen</span>
-            <span class="button-arrow">→</span>
-          </button>
-
-
-          <p
-            id="registerMessage"
-            class="message"
-          ></p>
-
-        </form>
-
-
-        <p class="switch-text">
-          Schon registriert?
-
-          <button
-            id="showLogin"
-            class="switch-button"
-            type="button"
-          >
-            Einloggen
-          </button>
-        </p>
-
-      </section>
-
-
-      <!-- =========================
-           LOGIN
-      ========================== -->
-
-      <section
-        id="loginView"
-        class="hidden"
-      >
-
-        <p class="eyebrow">WILLKOMMEN ZURÜCK</p>
-
-        <h1>Einloggen.</h1>
-
-        <p class="description">
-          Melde dich mit deinen Zugangsdaten an,
-          um zu deinem Account zurückzukehren.
-        </p>
-
-
-        <form id="loginForm">
-
-          <!-- EMAIL -->
-          <div class="field">
-
-            <label for="loginEmail">E-Mail</label>
-
-            <div class="input-wrapper">
-
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
-                />
-              </svg>
-
-              <input
-                type="email"
-                id="loginEmail"
-                name="email"
-                placeholder="name@example.com"
-                autocomplete="email"
-              >
+              </div>
 
             </div>
-          </div>
 
 
-          <!-- PASSWORD -->
-          <div class="field">
+            <!-- PASSWORD -->
 
-            <label for="loginPassword">Passwort</label>
+            <div class="field">
 
-            <div class="input-wrapper">
+              <label for="password">
+                Passwort
+              </label>
 
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
-                />
-              </svg>
+              <div class="input-wrapper">
 
-              <input
-                type="password"
-                id="loginPassword"
-                name="password"
-                placeholder="Dein Passwort"
-                autocomplete="current-password"
-              >
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
+                  />
+                </svg>
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Mindestens 8 Zeichen"
+                  autocomplete="new-password"
+                >
+
+              </div>
 
             </div>
-          </div>
-
-          <button
-  type="button"
-  id="forgotPasswordButton"
-  class="forgot-password-button"
->
-  Passwort vergessen?
-</button>
-
-          <button class="submit-btn" type="submit">
-            <span>Einloggen</span>
-            <span class="button-arrow">→</span>
-          </button>
 
 
-          <p
-            id="loginMessage"
-            class="message"
-          ></p>
-
-        </form>
-
-
-        <p class="switch-text">
-          Noch kein Account?
-
-          <button
-            id="showRegister"
-            class="switch-button"
-            type="button"
-          >
-            Registrieren
-          </button>
-        </p>
-
-      </section>
-
-    </div>
-  </section>
+            <button
+              class="submit-btn"
+              type="submit"
+            >
+              <span>Account erstellen</span>
+              <span class="button-arrow">→</span>
+            </button>
 
 
-  <!-- =========================
-       RECHTE SEITE
-  ========================== -->
+            <p
+              id="registerMessage"
+              class="message"
+            ></p>
 
-  <section class="visual-side">
-
-    <div class="grid-background"></div>
-
-    <div class="planet planet-large"></div>
-    <div class="planet planet-small"></div>
+          </form>
 
 
-    <div class="security-card">
+          <p class="switch-text">
 
-      <div>
-        <p class="security-label">
-          SECURE ACCESS
-        </p>
+            Schon registriert?
 
-        <h2>
-          Ein Account. Eine sichere
-          Verbindung zu deiner Anwendung.
-        </h2>
-      </div>
+            <button
+              id="showLogin"
+              class="switch-button"
+              type="button"
+            >
+              Einloggen
+            </button>
+
+          </p>
+
+        </section>
 
 
-      <div class="shield-box">
 
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+        <!-- =========================
+             LOGIN
+        ========================== -->
+
+        <section
+          id="loginView"
+          class="hidden"
         >
-          <path
-            d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z"
-          />
 
-          <path
-            d="m9 12 2 2 4-4"
-          />
-        </svg>
+          <p class="eyebrow">
+            WILLKOMMEN ZURÜCK
+          </p>
+
+          <h1>
+            Einloggen.
+          </h1>
+
+          <p class="description">
+            Melde dich mit deinen Zugangsdaten an,
+            um zu deinem Account zurückzukehren.
+          </p>
+
+
+          <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="field">
+
+              <label for="loginEmail">
+                E-Mail
+              </label>
+
+              <div class="input-wrapper">
+
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
+                  />
+                </svg>
+
+                <input
+                  type="email"
+                  id="loginEmail"
+                  name="email"
+                  placeholder="name@example.com"
+                  autocomplete="email"
+                >
+
+              </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="field">
+
+              <label for="loginPassword">
+                Passwort
+              </label>
+
+              <div class="input-wrapper">
+
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
+                  />
+                </svg>
+
+                <input
+                  type="password"
+                  id="loginPassword"
+                  name="password"
+                  placeholder="Dein Passwort"
+                  autocomplete="current-password"
+                >
+
+              </div>
+
+            </div>
+
+
+            <!-- PASSWORT VERGESSEN -->
+
+            <button
+              type="button"
+              id="forgotPasswordButton"
+              class="forgot-password-button"
+            >
+              Passwort vergessen?
+            </button>
+
+
+            <button
+              class="submit-btn"
+              type="submit"
+            >
+              <span>Einloggen</span>
+              <span class="button-arrow">→</span>
+            </button>
+
+
+            <p
+              id="loginMessage"
+              class="message"
+            ></p>
+
+          </form>
+
+
+          <p class="switch-text">
+
+            Noch kein Account?
+
+            <button
+              id="showRegister"
+              class="switch-button"
+              type="button"
+            >
+              Registrieren
+            </button>
+
+          </p>
+
+        </section>
+
+
+
+        <!-- =========================
+             PASSWORT VERGESSEN
+        ========================== -->
+
+        <section
+          id="forgotPasswordView"
+          class="hidden"
+        >
+
+          <p class="eyebrow">
+            ACCOUNT RECOVERY
+          </p>
+
+          <h1>
+            Passwort vergessen?
+          </h1>
+
+          <p class="description">
+            Gib deine E-Mail-Adresse ein.
+            Wenn ein Account mit dieser Adresse existiert,
+            senden wir dir einen Link zum Zurücksetzen deines Passworts.
+          </p>
+
+
+          <form id="forgotPasswordForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="field">
+
+              <label for="forgotEmail">
+                E-Mail
+              </label>
+
+              <div class="input-wrapper">
+
+                <svg
+                  class="input-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
+                  />
+                </svg>
+
+                <input
+                  type="email"
+                  id="forgotEmail"
+                  name="email"
+                  placeholder="name@example.com"
+                  autocomplete="email"
+                >
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="submit-btn"
+              type="submit"
+            >
+              <span>Reset-Link senden</span>
+              <span class="button-arrow">→</span>
+            </button>
+
+
+            <p
+              id="forgotPasswordMessage"
+              class="message"
+            ></p>
+
+          </form>
+
+
+          <p class="switch-text">
+
+            Passwort wieder eingefallen?
+
+            <button
+              id="backToLogin"
+              class="switch-button"
+              type="button"
+            >
+              Zurück zum Login
+            </button>
+
+          </p>
+
+        </section>
+
 
       </div>
 
-    </div>
-
-  </section>
-
-</main>
+    </section>
 
 
+
+    <!-- =========================
+         RECHTE SEITE
+    ========================== -->
+
+    <section class="visual-side">
+
+      <div class="grid-background"></div>
+
+      <div class="planet planet-large"></div>
+      <div class="planet planet-small"></div>
+
+
+      <div class="security-card">
+
+        <div>
+
+          <p class="security-label">
+            SECURE ACCESS
+          </p>
+
+          <h2>
+            Ein Account. Eine sichere
+            Verbindung zu deiner Anwendung.
+          </h2>
+
+        </div>
+
+
+        <div class="shield-box">
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+
+            <path
+              d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z"
+            />
+
+            <path
+              d="m9 12 2 2 4-4"
+            />
+
+          </svg>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
 <!-- DEINEN BISHERIGEN SCRIPT-BLOCK
      DIREKT HIER DRUNTER LASSEN -->
 <script>
