@@ -552,7 +552,30 @@ input:focus {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.forgot-password-button {
+  width: fit-content;
 
+  margin-top: -7px;
+  margin-left: auto;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+  color: var(--muted);
+
+  font: inherit;
+  font-size: 12px;
+
+  cursor: pointer;
+
+  transition: color 0.15s ease;
+}
+
+.forgot-password-button:hover {
+  color: var(--text);
+}
 
 /* ========================================
    TABLET
@@ -865,12 +888,12 @@ input:focus {
           </div>
 
           <button
-             type="button"
-             id="forgotPasswordButton"
-            class="forgot-password-button"
-             > 
-            Passwort vergessen?
-           </button>
+  type="button"
+  id="forgotPasswordButton"
+  class="forgot-password-button"
+>
+  Passwort vergessen?
+</button>
 
           <button class="submit-btn" type="submit">
             <span>Einloggen</span>
@@ -974,8 +997,21 @@ input:focus {
   const showLogin = document.querySelector("#showLogin");
   const showRegister = document.querySelector("#showRegister");
 
-  const forgotPasswordButton =
+
+  const forgotPasswordView =
+  document.querySelector("#forgotPasswordView");
+
+const forgotPassworButton =
   document.querySelector("#forgotPasswordButton");
+
+const forgotPasswordForm =
+  document.querySelector("#forgotPasswordForm");
+
+const forgotPasswordMessage =
+  document.querySelector("#forgotPasswordMessage");
+
+const backToLogin =
+  document.querySelector("#backToLogin");
 
   // ==========================================
   // REGISTER → LOGIN WECHSELN
@@ -1129,48 +1165,102 @@ input:focus {
       console.log(error);
     }
   });
-  forgotPasswordButton.addEventListener("click", async () => {
+  
+  forgotPasswordButton.addEventListener("click", () => {
 
-  const email = prompt(
-    "Gib deine E-Mail-Adresse ein:"
-  );
+  loginView.classList.add("hidden");
+  forgotPasswordView.classList.remove("hidden");
 
-  if (!email) {
-    return;
-  }
-
-  try {
-
-    const response = await fetch(
-      "/forgot-password",
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-          email: email.trim()
-        })
-      }
-    );
-
-    const message =
-      await response.text();
-
-    alert(message);
-
-  } catch (error) {
-
-    console.log(error);
-
-    alert(
-      "Anfrage konnte nicht gesendet werden."
-    );
-  }
+  loginMessage.textContent = "";
 
 });
+
+
+backToLogin.addEventListener("click", () => {
+
+  forgotPasswordView.classList.add("hidden");
+  loginView.classList.remove("hidden");
+
+  forgotPasswordMessage.textContent = "";
+
+});
+
+
+forgotPasswordForm.addEventListener(
+  "submit",
+  async (event) => {
+
+    event.preventDefault();
+
+    forgotPasswordMessage.textContent = "";
+    forgotPasswordMessage.className = "message";
+
+
+    const email =
+      document
+        .querySelector("#forgotEmail")
+        .value
+        .trim();
+
+
+    try {
+
+      const response =
+        await fetch("/forgot-password", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            email
+          })
+
+        });
+
+
+      const message =
+        await response.text();
+
+
+      forgotPasswordMessage.textContent =
+        message;
+
+
+      if (response.ok) {
+
+        forgotPasswordMessage
+          .classList
+          .add("success");
+
+        forgotPasswordForm.reset();
+
+      } else {
+
+        forgotPasswordMessage
+          .classList
+          .add("error");
+
+      }
+
+
+    } catch (error) {
+
+      console.log(error);
+
+      forgotPasswordMessage.textContent =
+        "Anfrage konnte nicht gesendet werden.";
+
+      forgotPasswordMessage
+        .classList
+        .add("error");
+
+    }
+
+  }
+);
 </script>
 </body>
 </html>
