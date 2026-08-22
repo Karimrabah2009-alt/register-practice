@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+     * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #050607;
+  --surface: #090b0e;
+  --surface-light: #0d1014;
+
+  --border: #24282e;
+  --border-hover: #41464f;
+
+  --text: #f2f2ef;
+  --muted: #92979f;
+
+  --input: #0b0e12;
+
+  --button: #f0efec;
+  --button-text: #0a0b0d;
+
+  --success: #73c995;
+  --error: #e57878;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  padding: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--background);
+  color: var(--text);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* ========================================
+   HAUPTCONTAINER
+======================================== */
+
+.auth-shell {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 760px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+
+  overflow: hidden;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+  border-radius: 24px;
+
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ========================================
+   LINKE SEITE
+======================================== */
+
+.auth-left {
+  min-width: 0;
+
+  padding: 45px 54px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* LOGO */
+
+.brand {
+  margin-left: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  letter-spacing: 0.25em;
+}
+
+/* AUTH CONTENT */
+
+.auth-content {
+  width: 100%;
+  max-width: 445px;
+
+  margin: auto;
+}
+
+.eyebrow {
+  margin-bottom: 18px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  letter-spacing: 0.17em;
+}
+
+.auth-content h1 {
+  margin-bottom: 18px;
+
+  font-size: clamp(38px, 4vw, 52px);
+  line-height: 1;
+
+  letter-spacing: -0.045em;
+}
+
+.description {
+  max-width: 400px;
+
+  margin-bottom: 34px;
+
+  color: var(--muted);
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* ========================================
+   FORMULAR
+======================================== */
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* INPUT */
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+
+  top: 50%;
+  left: 16px;
+
+  width: 18px;
+  height: 18px;
+
+  transform: translateY(-50%);
+
+  fill: none;
+
+  stroke: #9a9fa7;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  pointer-events: none;
+}
+
+input {
+  width: 100%;
+  height: 54px;
+
+  padding:
+    0
+    16px
+    0
+    47px;
+
+  outline: none;
+
+  background: var(--input);
+  color: var(--text);
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 15px;
+
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+input::placeholder {
+  color: #60656d;
+}
+
+input:hover {
+  border-color: var(--border-hover);
+}
+
+input:focus {
+  background: #101318;
+
+  border-color: #656c76;
+
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.035);
+}
+
+
+/* ========================================
+   BUTTON
+======================================== */
+
+.submit-btn {
+  width: 100%;
+  height: 55px;
+
+  margin-top: 4px;
+  padding: 0 20px;
+
+  position: relative;
+
+  border: none;
+  border-radius: 8px;
+
+  background: var(--button);
+  color: var(--button-text);
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.submit-btn:hover {
+  background: #ffffff;
+
+  transform: translateY(-1px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.button-arrow {
+  position: absolute;
+
+  top: 50%;
+  right: 20px;
+
+  transform: translateY(-50%);
+
+  font-size: 21px;
+  font-weight: 400;
+}
+
+
+/* ========================================
+   MELDUNGEN
+======================================== */
+
+.message {
+  min-height: 18px;
+
+  margin-top: -6px;
+
+  font-size: 13px;
+}
+
+.message.success {
+  color: var(--success);
+}
+
+.message.error {
+  color: var(--error);
+}
+
+
+/* ========================================
+   LOGIN / REGISTER WECHSEL
+======================================== */
+
+.switch-text {
+  margin-top: 26px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+.switch-button {
+  margin-left: 4px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+  color: var(--text);
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* ========================================
+   RECHTE SEITE
+======================================== */
+
+.visual-side {
+  position: relative;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  border-left: 1px solid var(--border);
+
+  background:
+    radial-gradient(
+      circle at 72% 32%,
+      #181c21 0%,
+      #0d1014 42%,
+      #080a0c 72%
+    );
+}
+
+
+/* GRID */
+
+.grid-background {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 58px 58px;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      rgba(0, 0, 0, 0.55),
+      transparent 85%
+    );
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      rgba(0, 0, 0, 0.55),
+      transparent 85%
+    );
+}
+
+
+/* PLANETEN */
+
+.planet {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.planet-large {
+  width: 470px;
+  height: 470px;
+
+  top: 70px;
+  right: -80px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.28);
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #454950,
+      #202329 38%,
+      #0d0f12 72%
+    );
+
+  box-shadow:
+    inset -55px -45px 100px rgba(0, 0, 0, 0.85),
+    -30px 40px 90px rgba(0, 0, 0, 0.4);
+}
+
+.planet-small {
+  width: 210px;
+  height: 210px;
+
+  top: 265px;
+  right: 170px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.26);
+
+  background:
+    radial-gradient(
+      circle at 32% 27%,
+      #292d33,
+      #111317 65%
+    );
+
+  box-shadow:
+    inset -30px -30px 55px rgba(0, 0, 0, 0.75);
+}
+
+
+/* ========================================
+   SECURITY CARD
+======================================== */
+
+.security-card {
+  position: absolute;
+
+  left: 42px;
+  right: 42px;
+  bottom: 42px;
+
+  min-height: 185px;
+
+  padding: 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 30px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.11);
+
+  border-radius: 14px;
+
+  background:
+    rgba(11, 13, 16, 0.82);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.security-label {
+  margin-bottom: 13px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  letter-spacing: 0.15em;
+}
+
+.security-card h2 {
+  max-width: 350px;
+
+  font-size: 24px;
+  line-height: 1.35;
+
+  letter-spacing: -0.03em;
+}
+
+.shield-box {
+  width: 88px;
+  height: 88px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  background: #13161b;
+}
+
+.shield-box svg {
+  width: 43px;
+  height: 43px;
+
+  fill: none;
+
+  stroke: #a9adb4;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 900px) {
+
+  body {
+    padding: 0;
+  }
+
+  .auth-shell {
+    min-height: 100vh;
+
+    grid-template-columns: 1fr;
+
+    border: none;
+    border-radius: 0;
+  }
+
+  .visual-side {
+    display: none;
+  }
+
+  .auth-left {
+    min-height: 100vh;
+
+    padding:
+      34px
+      clamp(24px, 8vw, 70px);
+  }
+
+  .auth-content {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+
+/* ========================================
+   HANDY
+======================================== */
+
+@media (max-width: 520px) {
+
+  .auth-left {
+    padding: 24px 20px;
+  }
+
+  .brand {
+    margin-bottom: 60px;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+
+    font-size: 15px;
+  }
+
+  .auth-content h1 {
+    font-size: 38px;
+  }
+
+  .description {
+    margin-bottom: 28px;
+
+    font-size: 14px;
+  }
+
+  form {
+    gap: 17px;
+  }
+
+  input {
+    height: 51px;
+  }
+
+  .submit-btn {
+    height: 52px;
+  }
+
+  .switch-text {
+    margin-top: 22px;
+  }
+}
+    </style>
+</head>
+<body>
+    <main class="auth-shell">
+
+  <!-- LINKE SEITE -->
+  <section class="auth-left">
+
+    <header class="brand">
+      <div class="brand-icon">K'🇪🇺</div>
+      <span>Technologies</span>
+    </header>
+
+
+    <div class="auth-content">
+
+      <!-- =========================
+           REGISTRIERUNG
+      ========================== -->
+
+      <section id="registerView">
+
+        <p class="eyebrow">NEUER ACCOUNT</p>
+
+        <h1>Willkommen.</h1>
+
+        <p class="description">
+          Erstelle deinen Account und verwalte deine Daten
+          anschließend sicher über dein persönliches Dashboard.
+        </p>
+
+
+        <form id="registerForm">
+
+          <!-- NAME -->
+          <div class="field">
+
+            <label for="name">Name</label>
+
+            <div class="input-wrapper">
+
+              <svg
+                class="input-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M20 21a8 8 0 0 0-16 0M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                />
+              </svg>
+
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Dein Name" autocomplete="name">
+            </div>
+          </div>
+
+
+          <!-- EMAIL -->
+          <div class="field">
+
+            <label for="email">E-Mail</label>
+
+            <div class="input-wrapper">
+
+              <svg
+                class="input-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
+                />
+              </svg>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                autocomplete="email"
+              >
+
+            </div>
+          </div>
+
+
+          <!-- PASSWORD -->
+          <div class="field">
+
+            <label for="password">Passwort</label>
+
+            <div class="input-wrapper">
+
+              <svg
+                class="input-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
+                />
+              </svg>
+
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Mindestens 8 Zeichen"
+                autocomplete="new-password"
+              >
+
+            </div>
+          </div>
+
+
+          <button class="submit-btn" type="submit">
+            <span>Account erstellen</span>
+            <span class="button-arrow">→</span>
+          </button>
+
+
+          <p
+            id="registerMessage"
+            class="message"
+          ></p>
+
+        </form>
+
+
+        <p class="switch-text">
+          Schon registriert?
+
+          <button
+            id="showLogin"
+            class="switch-button"
+            type="button"
+          >
+            Einloggen
+          </button>
+        </p>
+
+      </section>
+
+
+      <!-- =========================
+           LOGIN
+      ========================== -->
+
+      <section
+        id="loginView"
+        class="hidden"
+      >
+
+        <p class="eyebrow">WILLKOMMEN ZURÜCK</p>
+
+        <h1>Einloggen.</h1>
+
+        <p class="description">
+          Melde dich mit deinen Zugangsdaten an,
+          um zu deinem Account zurückzukehren.
+        </p>
+
+
+        <form id="loginForm">
+
+          <!-- EMAIL -->
+          <div class="field">
+
+            <label for="loginEmail">E-Mail</label>
+
+            <div class="input-wrapper">
+
+              <svg
+                class="input-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 6h18v12H3V6Zm0 1 9 6 9-6"
+                />
+              </svg>
+
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                placeholder="name@example.com"
+                autocomplete="email"
+              >
+
+            </div>
+          </div>
+
+
+          <!-- PASSWORD -->
+          <div class="field">
+
+            <label for="loginPassword">Passwort</label>
+
+            <div class="input-wrapper">
+
+              <svg
+                class="input-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v11H5V10Z"
+                />
+              </svg>
+
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="Dein Passwort"
+                autocomplete="current-password"
+              >
+
+            </div>
+          </div>
+
+
+          <button class="submit-btn" type="submit">
+            <span>Einloggen</span>
+            <span class="button-arrow">→</span>
+          </button>
+
+
+          <p
+            id="loginMessage"
+            class="message"
+          ></p>
+
+        </form>
+
+
+        <p class="switch-text">
+          Noch kein Account?
+
+          <button
+            id="showRegister"
+            class="switch-button"
+            type="button"
+          >
+            Registrieren
+          </button>
+        </p>
+
+      </section>
+
+    </div>
+  </section>
+
+
+  <!-- =========================
+       RECHTE SEITE
+  ========================== -->
+
+  <section class="visual-side">
+
+    <div class="grid-background"></div>
+
+    <div class="planet planet-large"></div>
+    <div class="planet planet-small"></div>
+
+
+    <div class="security-card">
+
+      <div>
+        <p class="security-label">
+          SECURE ACCESS
+        </p>
+
+        <h2>
+          Ein Account. Eine sichere
+          Verbindung zu deiner Anwendung.
+        </h2>
+      </div>
+
+
+      <div class="shield-box">
+
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 3 20 6v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6l8-3Z"
+          />
+
+          <path
+            d="m9 12 2 2 4-4"
+          />
+        </svg>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- DEINEN BISHERIGEN SCRIPT-BLOCK
+     DIREKT HIER DRUNTER LASSEN -->
+<script>
+
+  // ==========================================
+  // HTML-ELEMENTE HOLEN
+  // ==========================================
+
+  const registerView = document.querySelector("#registerView");
+  const loginView = document.querySelector("#loginView");
+
+  const registerForm = document.querySelector("#registerForm");
+  const registerMessage = document.querySelector("#registerMessage");
+
+  const loginForm = document.querySelector("#loginForm");
+  const loginMessage = document.querySelector("#loginMessage");
+
+  const showLogin = document.querySelector("#showLogin");
+  const showRegister = document.querySelector("#showRegister");
+
+
+  // ==========================================
+  // REGISTER → LOGIN WECHSELN
+  // ==========================================
+
+  showLogin.addEventListener("click", () => {
+
+    registerView.classList.add("hidden");
+    loginView.classList.remove("hidden");
+
+    // Alte Meldung entfernen
+    registerMessage.textContent = "";
+
+  });
+
+
+  // ==========================================
+  // LOGIN → REGISTER WECHSELN
+  // ==========================================
+
+  showRegister.addEventListener("click", () => {
+
+    loginView.classList.add("hidden");
+    registerView.classList.remove("hidden");
+
+    // Alte Meldung entfernen
+    loginMessage.textContent = "";
+
+  });
+
+
+  // ==========================================
+  // REGISTRIERUNG
+  // ==========================================
+
+  registerForm.addEventListener("submit", async (event) => {
+
+    // Verhindert normales Neuladen der Seite
+    event.preventDefault();
+
+
+    // Alte Meldung entfernen
+    registerMessage.textContent = "";
+    registerMessage.className = "message";
+
+
+    // Eingaben aus dem Formular holen
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+
+    try {
+
+      // Daten an unser Backend schicken
+      const response = await fetch("/register", { // Await waits for HTTP REQUEST
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
+
+      });
+
+
+      // Antwort des Backends auslesen
+      const message = await response.text(); // BODY BACKEND AS TEXT
+
+      // Antwort auf der Webseite anzeigen
+      registerMessage.textContent = message;
+
+      // Registrierung erfolgreich PRÜFT HTTP STATUS CODE 
+      if (response.ok) { 
+        registerMessage.classList.add("success");
+        registerForm.reset();
+      } else {
+        registerMessage.classList.add("error");
+      }
+
+    } catch (error) {
+
+      // Falls Server überhaupt nicht erreichbar ist
+      registerMessage.textContent =
+        "Server nicht erreichbar.";
+
+      registerMessage.classList.add("error");
+      console.log(error);
+    }
+  });
+  // ==========================================
+  // LOGIN
+  // ==========================================
+
+  loginForm.addEventListener("submit", async (event) => {
+
+    // Verhindert normales Neuladen der Seite
+    event.preventDefault();
+
+
+    // Alte Meldung entfernen
+    loginMessage.textContent = "";
+    loginMessage.className = "message";
+
+
+    // Login-Daten holen
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    try {
+
+      // Login-Daten ans Backend schicken
+      const response = await fetch("/login", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+      // Antwort des Backends auslesen
+      const message = await response.text();
+
+      // Antwort auf Webseite anzeigen
+      loginMessage.textContent = message;
+
+      // Login erfolgreich
+      
+      if (response.ok) {
+  window.location.href = "/dashboard";
+} else {
+  loginMessage.classList.add("error");
+}
+
+    } catch (error) {
+      loginMessage.textContent =
+        "Server nicht erreichbar.";
+
+      loginMessage.classList.add("error");
+      console.log(error);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,785 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #050607;
+
+  --sidebar: #080a0d;
+  --surface: #0b0e12;
+  --surface-light: #101318;
+
+  --border: #24282e;
+  --border-light: #32373f;
+
+  --text: #f2f2ef;
+  --muted: #8e949d;
+
+  --success: #76c997;
+}
+
+body {
+  min-height: 100vh;
+
+  background: var(--background);
+  color: var(--text);
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* ================================
+   LAYOUT
+================================ */
+
+.dashboard-shell {
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 250px 1fr;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.sidebar {
+  min-height: 100vh;
+
+  padding: 32px 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--sidebar);
+
+  border-right: 1px solid var(--border);
+}
+
+
+/* BRAND */
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: 0.22em;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #5c626b;
+  border-radius: 7px;
+
+  letter-spacing: 0;
+}
+
+
+/* NAVIGATION */
+
+.navigation {
+  margin-top: 70px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.nav-link {
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-radius: 8px;
+
+  color: var(--muted);
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-link:hover {
+  background: var(--surface-light);
+
+  color: var(--text);
+}
+
+.nav-link.active {
+  background: var(--surface-light);
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+}
+
+.nav-icon {
+  width: 20px;
+
+  text-align: center;
+}
+
+
+/* LOGOUT */
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.logout-button {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: transparent;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  color: var(--muted);
+
+  font: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.logout-button:hover {
+  background: var(--surface-light);
+  color: var(--text);
+
+  border-color: var(--border-light);
+}
+
+
+/* ================================
+   MAIN
+================================ */
+
+.dashboard-main {
+  min-width: 0;
+
+  padding:
+    48px
+    clamp(30px, 5vw, 75px)
+    60px;
+
+  background:
+    radial-gradient(
+      circle at 90% 5%,
+      #15191f 0%,
+      transparent 27%
+    ),
+    var(--background);
+}
+
+
+/* ================================
+   TOPBAR
+================================ */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 30px;
+
+  margin-bottom: 46px;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  letter-spacing: 0.18em;
+}
+
+.topbar h1 {
+  font-size:
+    clamp(30px, 4vw, 48px);
+
+  line-height: 1.1;
+
+  letter-spacing: -0.045em;
+}
+
+
+/* PROFILE */
+
+.profile-chip {
+  min-width: 220px;
+
+  padding: 10px 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  background:
+    rgba(12, 15, 19, 0.8);
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.profile-avatar {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #e9e8e4;
+  color: #090a0c;
+
+  font-weight: 700;
+}
+
+.profile-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-email {
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+
+/* ================================
+   STATUS
+================================ */
+
+.status-card {
+  min-height: 180px;
+
+  padding: 30px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 30px;
+
+  margin-bottom: 24px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #101318,
+      #090b0e
+    );
+}
+
+.status-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 320px;
+  height: 320px;
+
+  right: -100px;
+  top: -150px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+}
+
+.status-content {
+  position: relative;
+
+  z-index: 1;
+}
+
+.status-label {
+  margin-bottom: 14px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  letter-spacing: 0.15em;
+}
+
+.status-content h2 {
+  margin-bottom: 10px;
+
+  font-size: 25px;
+
+  letter-spacing: -0.025em;
+}
+
+.status-content p:last-child {
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+.status-badge {
+  position: relative;
+
+  z-index: 1;
+
+  padding: 8px 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+
+  color: #c5c9ce;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--success);
+}
+
+
+/* ================================
+   DASHBOARD CARDS
+================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-bottom: 24px;
+}
+
+.dashboard-card {
+  min-height: 260px;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  background: var(--surface);
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--border-light);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  letter-spacing: 0.13em;
+}
+
+.card-number {
+  letter-spacing: 0;
+}
+
+.card-content {
+  margin-top: 55px;
+}
+
+.card-content h3 {
+  margin-bottom: 11px;
+
+  font-size: 20px;
+}
+
+.card-content p {
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.card-button {
+  margin-top: auto;
+
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  background: transparent;
+
+  border: none;
+
+  color: var(--text);
+
+  font: inherit;
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.session-state {
+  margin-top: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--success);
+
+  font-size: 13px;
+}
+
+.session-state span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--success);
+}
+
+
+/* ================================
+   ACTIVITY
+================================ */
+
+.activity-panel {
+  padding: 28px;
+
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 0.7fr)
+    1.3fr;
+
+  gap: 50px;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  background: var(--surface);
+}
+
+.panel-label {
+  margin-bottom: 12px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  letter-spacing: 0.15em;
+}
+
+.activity-panel h2 {
+  font-size: 22px;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-item {
+  min-height: 70px;
+
+  padding: 12px 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-title {
+  color: var(--muted);
+
+  font-size: 11px;
+
+  margin-bottom: 5px;
+}
+
+.activity-value {
+  font-size: 13px;
+}
+
+.verified {
+  color: var(--success);
+
+  font-size: 11px;
+}
+/* ================================
+   FINGERHUT / CLASSIFIED CARD
+================================ */
+
+.fingerhut-card {
+  border-color: #5d2727;
+
+  background:
+    linear-gradient(
+      145deg,
+      #171012,
+      #0b0d10 65%
+    );
+}
+
+.fingerhut-card:hover {
+  border-color: #8a3434;
+}
+
+.classified-label {
+  color: #df5a5a;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+
+.fingerhut-card h3 {
+  color: #f1eeee;
+}
+
+.fingerhut-link {
+  color: #e8dddd;
+  text-decoration: none;
+}
+
+.fingerhut-link:hover {
+  color: #ffffff;
+}
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 1000px) {
+
+  .dashboard-shell {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .sidebar {
+    padding:
+      28px
+      17px;
+  }
+
+  .brand span {
+    display: none;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .navigation {
+    align-items: center;
+  }
+
+  .nav-link {
+    width: 50px;
+
+    padding: 0;
+
+    justify-content: center;
+  }
+
+  .nav-link:not(.active) {
+    background: transparent;
+  }
+
+  .nav-link {
+    font-size: 0;
+  }
+
+  .nav-icon {
+    font-size: 17px;
+  }
+
+  .logout-button span:first-child {
+    display: none;
+  }
+
+  .logout-button {
+    justify-content: center;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+  .dashboard-shell {
+    display: block;
+  }
+
+  .sidebar {
+    min-height: auto;
+
+    height: 70px;
+
+    padding: 0 20px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 20;
+
+    flex-direction: row;
+    align-items: center;
+
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand span {
+    display: inline;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .sidebar-bottom {
+    margin:
+      0
+      0
+      0
+      auto;
+  }
+
+  .logout-button {
+    width: 45px;
+    height: 42px;
+  }
+
+  .dashboard-main {
+    padding:
+      32px
+      20px
+      45px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    margin-bottom: 32px;
+  }
+
+  .profile-chip {
+    width: 100%;
+  }
+
+  .status-card {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-panel {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+}

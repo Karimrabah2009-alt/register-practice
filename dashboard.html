@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+  <div class="dashboard-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-icon">A</div>
+        <span>ACCOUNT</span>
+      </div>
+
+
+      <nav class="navigation">
+
+        <a
+          href="#"
+          class="nav-link active"
+        >
+          <span class="nav-icon">⌂</span>
+          Dashboard
+        </a>
+
+        <a
+          href="#"
+          class="nav-link"
+        >
+          <span class="nav-icon">◯</span>
+          Account
+        </a>
+
+        <a
+          href="#"
+          class="nav-link"
+        >
+          <span class="nav-icon">⚙</span>
+          Einstellungen
+        </a>
+
+      </nav>
+
+
+      <div class="sidebar-bottom">
+
+        <button
+          id="logoutButton"
+          class="logout-button"
+          type="button"
+        >
+          <span>Abmelden</span>
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+      <!-- TOP BAR -->
+      <header class="topbar">
+
+        <div>
+          <p class="eyebrow">
+            DASHBOARD
+          </p>
+
+          <h1>
+            Willkommen zurück,
+            <span id="userName">Nutzer</span>.
+          </h1>
+        </div>
+
+
+        <div class="profile-chip">
+
+          <div class="profile-avatar">
+            <span id="userInitial">N</span>
+          </div>
+
+          <div>
+            <p
+              id="profileName"
+              class="profile-name"
+            >
+              Nutzer
+            </p>
+
+            <p
+              id="profileEmail"
+              class="profile-email"
+            >
+              email@example.com
+            </p>
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- STATUS -->
+      <section class="status-card">
+
+        <div class="status-content">
+
+          <p class="status-label">
+            ACCOUNT STATUS
+          </p>
+
+          <h2>
+            Dein Account ist aktiv und geschützt.
+          </h2>
+
+          <p>
+            Deine Anmeldung wird über eine geschützte
+            Session verwaltet.
+          </p>
+
+        </div>
+
+
+        <div class="status-badge">
+
+          <span class="status-dot"></span>
+
+          Secure
+
+        </div>
+
+      </section>
+
+
+      <!-- CARDS -->
+      <section class="dashboard-grid">
+
+        <article class="dashboard-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              PROFIL
+            </span>
+
+            <span class="card-number">
+              01
+            </span>
+
+          </div>
+
+
+          <div class="card-content">
+
+            <h3>
+              Persönliche Daten
+            </h3>
+
+            <p>
+              Verwalte deine Account-Informationen
+              und persönlichen Daten.
+            </p>
+
+          </div>
+
+
+          <button class="card-button">
+            Profil öffnen
+            <span>→</span>
+          </button>
+
+        </article>
+
+
+        <article class="dashboard-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              SECURITY
+            </span>
+
+            <span class="card-number">
+              02
+            </span>
+
+          </div>
+
+
+          <div class="card-content">
+
+            <h3>
+              Sicherheit
+            </h3>
+
+            <p>
+              Passwort, E-Mail-Verifizierung
+              und aktive Session verwalten.
+            </p>
+
+          </div>
+
+
+          <button class="card-button">
+            Sicherheit öffnen
+            <span>→</span>
+          </button>
+
+        </article>
+
+
+        <article class="dashboard-card">
+
+          <div class="card-top">
+
+            <span class="card-label">
+              SESSION
+            </span>
+
+            <span class="card-number">
+              03
+            </span>
+
+          </div>
+
+
+          <div class="card-content">
+
+            <h3>
+              Aktive Sitzung
+            </h3>
+
+            <p>
+              Deine aktuelle Anmeldung ist
+              über eine Server-Session verbunden.
+            </p>
+
+          </div>
+
+
+          <div class="session-state">
+            <span></span>
+            Aktiv
+          </div>
+
+        </article>
+
+        <div class="session-state">
+  <span></span>
+  Aktiv
+</div>
+
+</article>
+
+
+<!-- FINGERHUT CARD HIER EINFÜGEN -->
+
+<article class="dashboard-card fingerhut-card">
+
+  <div class="card-top">
+
+    <span class="card-label classified-label">
+      TOP SECRET
+    </span>
+
+    <span class="card-number">
+      04
+    </span>
+
+  </div>
+
+  <div class="card-content">
+
+    <h3>
+      Projekt FINGERHUT
+    </h3>
+
+    <p>
+      Klassifizierte Forschungsakte.
+      Zugriffsstufe OBSIDIAN-4.
+    </p>
+
+  </div>
+
+<!--<a href="/bilder/Fingerhut.jpg"class="card-button fingerhut-link"target="_blank">Akte öffnen
+    <span>→</span>
+  </a> -->
+
+</article>
+
+
+</section>
+
+
+<!-- LOWER PANEL -->
+<section class="activity-panel">
+      </section>
+
+
+      <!-- LOWER PANEL -->
+      <section class="activity-panel">
+
+        <div>
+
+          <p class="panel-label">
+            LETZTE AKTIVITÄT
+          </p>
+
+          <h2>
+            Account-Übersicht
+          </h2>
+
+        </div>
+
+
+        <div class="activity-list">
+
+          <div class="activity-item">
+
+            <div>
+              <p class="activity-title">
+                E-Mail-Adresse
+              </p>
+
+              <p
+                id="accountEmail"
+                class="activity-value"
+              >
+                email@example.com
+              </p>
+            </div>
+
+            <span class="verified">
+              Verifiziert
+            </span>
+
+          </div>
+
+
+          <div class="activity-item">
+
+            <div>
+              <p class="activity-title">
+                Session
+              </p>
+
+              <p class="activity-value">
+                Aktuell angemeldet
+              </p>
+            </div>
+
+            <span class="verified">
+              Aktiv
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+<script>
+  async function loadUser() {
+    try {
+      const response = await fetch("/api/me");
+
+      if (!response.ok) {
+        window.location.href = "/";
+        return;
+      }
+
+      const user = await response.json();
+
+      document.getElementById("userName").textContent = user.name;
+      document.getElementById("profileName").textContent = user.name;
+      document.getElementById("profileEmail").textContent = user.email;
+      document.getElementById("accountEmail").textContent = user.email;
+
+      document.getElementById("userInitial").textContent =
+        user.name.charAt(0).toUpperCase(); // BIG LETTER IN DAHSBOARD
+
+    } catch (error) {
+      console.log("Nutzerdaten konnten nicht geladen werden:", error);
+    }
+  }
+
+  loadUser();
+  const logoutButton = document.getElementById("logoutButton");
+
+logoutButton.addEventListener("click", async () => {
+  try {
+    const response = await fetch("/logout", {
+      method: "POST"
+    });
+
+    if (response.ok) {
+      window.location.href = "/";
+    }
+
+  } catch (error) {
+    console.log("Logout fehlgeschlagen:", error);
+  }
+});
+</script>
+</body>
+</html>
