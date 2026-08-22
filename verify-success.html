@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>E-Mail bestätigt</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #050607;
+      --panel: #0b0e12;
+      --panel-light: #11151a;
+      --border: #24282e;
+      --text: #f2f2ef;
+      --muted: #92979f;
+      --success: #74c995;
+      --button: #f1f0ed;
+      --button-text: #0a0b0d;
+    }
+
+    body {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      background:
+        radial-gradient(
+          circle at 75% 20%,
+          #171b20 0%,
+          transparent 30%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    .verify-card {
+      width: 100%;
+      max-width: 520px;
+
+      padding: 48px;
+
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--panel-light),
+          var(--panel)
+        );
+
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+
+      margin-bottom: 28px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(116, 201, 149, 0.35);
+
+      background: rgba(116, 201, 149, 0.08);
+
+      color: var(--success);
+
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .eyebrow {
+      margin-bottom: 12px;
+
+      color: var(--success);
+
+      font-size: 11px;
+      font-weight: 600;
+
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin-bottom: 16px;
+
+      font-size: 38px;
+      line-height: 1.05;
+
+      letter-spacing: -0.04em;
+    }
+
+    .description {
+      margin-bottom: 32px;
+
+      color: var(--muted);
+
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .status-box {
+      margin-bottom: 30px;
+      padding: 16px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: #090b0e;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--success);
+    }
+
+    .status-box p {
+      color: #c7cbd0;
+
+      font-size: 13px;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 54px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 20px;
+
+      border-radius: 9px;
+
+      background: var(--button);
+      color: var(--button-text);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+    }
+
+    .login-button:hover {
+      background: white;
+      transform: translateY(-1px);
+    }
+
+    .login-button span:last-child {
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .security-note {
+      margin-top: 20px;
+
+      color: #666c74;
+
+      font-size: 11px;
+      line-height: 1.6;
+
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px;
+      }
+
+      .verify-card {
+        padding: 34px 24px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="verify-card">
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+    <p class="eyebrow">
+      VERIFIZIERUNG ERFOLGREICH
+    </p>
+
+    <h1>
+      E-Mail bestätigt.
+    </h1>
+
+    <p class="description">
+      Deine E-Mail-Adresse wurde erfolgreich bestätigt.
+      Dein Account ist jetzt aktiviert und du kannst dich einloggen.
+    </p>
+
+    <div class="status-box">
+      <span class="status-dot"></span>
+
+      <p>
+        Account verifiziert und für den Login freigegeben
+      </p>
+    </div>
+
+    <a
+      href="/"
+      class="login-button"
+    >
+      <span>Zum Login</span>
+      <span>→</span>
+    </a>
+
+    <p class="security-note">
+      Die Verifizierung wurde abgeschlossen und der verwendete
+      Bestätigungs-Token ist nicht mehr gültig.
+    </p>
+
+  </main>
+
+</body>
+</html>

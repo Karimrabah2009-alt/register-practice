@@ -146,7 +146,7 @@ app.get("/verify-email" , async (req, res) => {
        WHERE verification_token = $1`,
   [token]
  );
-  res.send("Email erfolgreich bestätigt");
+  res.sendFile(__dirname + "/verify-success.html");
    } catch  (error) {
       res.status(500).send("E-Mail Bestätigung fehlgeschlagen");
    }
