@@ -122,6 +122,79 @@ if (error) {
     res.status(500).send("Registrierung fehlgeschlagen")
   }
 });
+// PASSWORD VERGESSEN ROUTE
+app.post("/forgot-password", async (req, res) => {
+
+  try {
+
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).send("E-Mail-Adresse fehlt.");
+    }
+
+    const result = await db.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(200).send(
+        "Falls ein Account mit dieser E-Mail existiert, wurde eine Nachricht versendet."
+      );
+    }
+
+    const user = result.rows[0];
+
+    const resetToken = crypto
+    .randomBytes(32)
+    .toString("hex");
+
+    const resetExpires = new Date(
+    Date.now() + 30 * 60 * 1000
+   );
+   await db.query(
+  `UPDATE users
+   SET password_reset_token = $1,
+       password_reset_expires = $2
+   WHERE id = $3`,
+  [resetToken, resetExpires, user.id]
+);
+   const resetLink =
+  `${process.env.APP_URL}/reset-password?token=${resetToken}`;
+
+
+   const { data, error } = await resend.emails.send({
+   from: "onboarding@resend.dev",
+   to: user.email,
+   subject: "Passwort zurücksetzen",
+   html: `
+    <h1>Passwort zurücksetzen</h1>
+    <p>Klicke auf den folgenden Link, um ein neues Passwort zu setzen:</p>
+    <a href="${resetLink}">Passwort zurücksetzen</a>
+    <p>Der Link ist 30 Minuten gültig.</p>
+  `
+  });
+
+if (error) {
+  console.error("Resend Fehler:", error);
+
+  return res
+    .status(500)
+    .send("Reset-Mail konnte nicht versendet werden.");
+}
+ res.send(
+      "Falls ein Account mit dieser E-Mail existiert, wurde eine Nachricht versendet."
+    );
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).send("Serverfehler.");
+
+  }
+
+});
 // EMAIL VERIFIZIERUNG
 
 app.get("/verify-email" , async (req, res) => {
@@ -272,6 +345,66 @@ app.post("/logout", (req, res) => {
 
     res.send("Logout erfolgreich");
   });
+
+});
+// PASSWORT ROUTE
+app.get("/reset-password", (req, res) => {
+  res.sendFile(__dirname + "/reset-password.html");
+});
+app.post("/reset-password", async (req, res) => {
+
+  try {
+
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      return res
+        .status(400)
+        .send("Token oder Passwort fehlt.");
+    }
+
+    if (password.length < 8) {
+      return res
+        .status(400)
+        .send("Das Passwort muss mindestens 8 Zeichen lang sein.");
+    }
+
+
+    const result = await db.query(
+  `SELECT * FROM users
+   WHERE password_reset_token = $1
+   AND password_reset_expires > NOW()`,
+  [token]
+);
+
+if (result.rows.length === 0) {
+  return res
+    .status(400)
+    .send("Der Reset-Link ist ungültig oder abgelaufen.");
+}
+
+  const user = result.rows[0];
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await db.query(
+  `UPDATE users
+   SET password = $1,
+       password_reset_token = NULL,
+       password_reset_expires = NULL
+   WHERE id = $2`,
+  [hashedPassword, user.id]
+);
+res.send("Passwort wurde erfolgreich geändert.");
+  } catch (error) {
+
+    console.error(error);
+
+    res
+      .status(500)
+      .send("Serverfehler.");
+
+  }
 
 });
 // ========================================

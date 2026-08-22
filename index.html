@@ -864,6 +864,13 @@ input:focus {
             </div>
           </div>
 
+          <button
+             type="button"
+             id="forgotPasswordButton"
+            class="forgot-password-button"
+             > 
+            Passwort vergessen?
+           </button>
 
           <button class="submit-btn" type="submit">
             <span>Einloggen</span>
@@ -967,6 +974,8 @@ input:focus {
   const showLogin = document.querySelector("#showLogin");
   const showRegister = document.querySelector("#showRegister");
 
+  const forgotPasswordButton =
+  document.querySelector("#forgotPasswordButton");
 
   // ==========================================
   // REGISTER → LOGIN WECHSELN
@@ -1120,6 +1129,48 @@ input:focus {
       console.log(error);
     }
   });
+  forgotPasswordButton.addEventListener("click", async () => {
+
+  const email = prompt(
+    "Gib deine E-Mail-Adresse ein:"
+  );
+
+  if (!email) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      "/forgot-password",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email: email.trim()
+        })
+      }
+    );
+
+    const message =
+      await response.text();
+
+    alert(message);
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert(
+      "Anfrage konnte nicht gesendet werden."
+    );
+  }
+
+});
 </script>
 </body>
 </html>
