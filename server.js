@@ -93,16 +93,24 @@ app.post("/register",registerLimiter, async (req, res) => {
    `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
 
    // MAIL SENDING BEI RESEND VERABEITET WORDEN IST 
-     await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: email,
-      subject: "Bestätige deine E-Mail-Adresse",
-      html: `
-       <h1>E-Mail bestätigen</h1>
-        <p>Klicke auf den folgenden Link, um deine E-Mail-Adresse zu bestätigen:</p>
-         <a href="${verificationLink}">E-Mail bestätigen</a>
+   const { data, error } = await resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: email,
+  subject: "Bestätige deine E-Mail-Adresse",
+  html: `
+    <h1>E-Mail bestätigen</h1>
+    <p>Klicke auf den folgenden Link, um deine E-Mail-Adresse zu bestätigen:</p>
+    <a href="${verificationLink}">E-Mail bestätigen</a>
   `
 });
+
+if (error) {
+  console.error("Resend Fehler:", error);
+
+  return res
+    .status(500)
+    .send("Bestätigungsmail konnte nicht versendet werden.");
+}
     res.send("Registrierung erfolgreich");
 
   } catch (error) {
