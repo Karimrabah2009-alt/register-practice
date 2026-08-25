@@ -33,9 +33,10 @@
 
 html,
 body {
-  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
-
 body {
   min-height: 100vh;
 
@@ -69,7 +70,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1.08fr;
 
-  overflow: hidden;
+  overflow-x: hidden;
 
   background: var(--surface);
 
@@ -612,6 +613,25 @@ input:focus {
     margin-top: auto;
     margin-bottom: auto;
   }
+}
+.auth-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .auth-left,
+  .visual-side,
+  .auth-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .visual-side {
+    overflow: hidden;
+  }
+
 }
 
 
