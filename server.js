@@ -36,8 +36,8 @@ app.use(
     }
   })
 );
-app.use(express.static(__dirname)); // PUBLIC
-app.use("/bilder", express.static(__dirname + "/bilder"));
+app.use(express.static(__dirname + "/public"));
+
 
 
 //===================
