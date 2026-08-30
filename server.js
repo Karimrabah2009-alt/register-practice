@@ -390,7 +390,69 @@ app.get("/api/me", requireValidSession,  async (req, res) => {
     email: user.email
   });
 });
+app.post("/change-password", requireValidSession, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
 
+    // 1. Eingaben prüfen
+    if (!currentPassword || !newPassword) {
+      return res.status(400).send("Bitte fülle alle Felder aus.");
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).send(
+        "Das neue Passwort muss mindestens 8 Zeichen lang sein."
+      );
+    }
+
+    // 2. Nutzer aus Datenbank laden
+    const result = await db.query(
+      "SELECT id, password FROM users WHERE id = $1",
+      [req.session.userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Account nicht gefunden.");
+    }
+
+    const user = result.rows[0];
+
+    // 3. Aktuelles Passwort überprüfen
+    const passwordCorrect = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+
+    if (!passwordCorrect) {
+      return res.status(401).send(
+        "Das aktuelle Passwort ist nicht korrekt."
+      );
+    }
+
+    // 4. Neues Passwort hashen
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
+
+    // 5. Passwort speichern
+    await db.query(
+      `UPDATE users
+       SET password = $1
+       WHERE id = $2`,
+      [hashedPassword, user.id]
+    );
+
+    res.status(200).send(
+      "Passwort erfolgreich geändert."
+    );
+
+  } catch (error) {
+    console.error("Passwort ändern fehlgeschlagen:", error);
+
+    res.status(500).send("Serverfehler");
+  }
+});
 app.post("/logout", (req, res) => {
 
   req.session.destroy((error) => {
