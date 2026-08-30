@@ -54,6 +54,11 @@ const registerLimiter = rateLimit({
   max: 5,
   message: "Zu viele Registrierungen. Bitte versuche es später erneut."
 });
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+  message: "Zu viele Passwort-Reset-Anfragen. Bitte versuche es später erneut."
+});
 // __________________________________________________
 
 
