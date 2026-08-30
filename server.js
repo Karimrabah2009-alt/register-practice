@@ -164,6 +164,15 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
     }
 
     const user = result.rows[0];
+    
+    if (
+  user.password_reset_requested_at &&
+  Date.now() - new Date(user.password_reset_requested_at).getTime() < 2 * 60 * 1000
+) {
+  return res.status(200).send(
+    "Falls ein Account mit dieser E-Mail existiert, wurde eine Nachricht versendet."
+  );
+}
 
     const resetToken = crypto
     .randomBytes(32)
@@ -177,10 +186,11 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
     const resetExpires = new Date(
     Date.now() + 30 * 60 * 1000
    );
-   await db.query(
+ await db.query(
   `UPDATE users
    SET password_reset_token = $1,
-       password_reset_expires = $2
+       password_reset_expires = $2,
+       password_reset_requested_at = NOW()
    WHERE id = $3`,
   [hashedResetToken, resetExpires, user.id]
 );
