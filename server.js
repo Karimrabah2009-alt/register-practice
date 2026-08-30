@@ -57,6 +57,17 @@ const registerLimiter = rateLimit({
 const forgotPasswordLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 3,
+
+  keyGenerator: (req) => {
+    const forwarded = req.headers["x-forwarded-for"];
+
+    if (forwarded) {
+      return forwarded.split(",")[0].trim();
+    }
+
+    return req.ip;
+  },
+
   message: "Zu viele Passwort-Reset-Anfragen. Bitte versuche es später erneut."
 });
 // __________________________________________________
