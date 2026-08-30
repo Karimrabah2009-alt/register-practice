@@ -2,59 +2,95 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  >
+>
+  <title>Account Dashboard</title>
 
-  <title>Dashboard</title>
-
-  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="/dashboard.css">
 </head>
 
 <body>
 
   <div class="dashboard-shell">
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
     <aside class="sidebar">
 
       <div class="brand">
         <div class="brand-icon">A</div>
-        <span>ACCOUNT</span>
+
+        <div class="brand-text">
+          <strong>ACCOUNT</strong>
+          <span>CONTROL</span>
+        </div>
       </div>
 
 
       <nav class="navigation">
 
-        <a
-          href="#"
+        <button
           class="nav-link active"
+          data-page="overview"
+          type="button"
         >
           <span class="nav-icon">⌂</span>
-          Dashboard
-        </a>
+          <span>Übersicht</span>
+        </button>
 
-        <a
-          href="#"
-          class="nav-link"
-        >
-          <span class="nav-icon">◯</span>
-          Account
-        </a>
 
-        <a
-          href="#"
+        <button
           class="nav-link"
+          data-page="profile"
+          type="button"
         >
-          <span class="nav-icon">⚙</span>
-          Einstellungen
-        </a>
+          <span class="nav-icon">○</span>
+          <span>Profil</span>
+        </button>
+
+
+        <button
+          class="nav-link"
+          data-page="security"
+          type="button"
+        >
+          <span class="nav-icon">◇</span>
+          <span>Sicherheit</span>
+        </button>
+
+
+        <button
+          class="nav-link"
+          data-page="sessions"
+          type="button"
+        >
+          <span class="nav-icon">◉</span>
+          <span>Sessions</span>
+        </button>
 
       </nav>
 
 
       <div class="sidebar-bottom">
+
+        <div class="sidebar-user">
+
+          <div class="sidebar-avatar">
+            <span id="sidebarInitial">N</span>
+          </div>
+
+          <div class="sidebar-user-info">
+            <strong id="sidebarName">Nutzer</strong>
+            <span>Angemeldet</span>
+          </div>
+
+        </div>
+
 
         <button
           id="logoutButton"
@@ -70,20 +106,27 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- =========================
+         MAIN
+    ========================== -->
+
     <main class="dashboard-main">
 
-      <!-- TOP BAR -->
+
+      <!-- TOPBAR -->
+
       <header class="topbar">
 
         <div>
-          <p class="eyebrow">
-            DASHBOARD
+          <p
+            id="pageEyebrow"
+            class="eyebrow"
+          >
+            ACCOUNT OVERVIEW
           </p>
 
-          <h1>
-            Willkommen zurück,
-            <span id="userName">Nutzer</span>.
+          <h1 id="pageTitle">
+            Übersicht
           </h1>
         </div>
 
@@ -94,7 +137,8 @@
             <span id="userInitial">N</span>
           </div>
 
-          <div>
+          <div class="profile-info">
+
             <p
               id="profileName"
               class="profile-name"
@@ -108,6 +152,7 @@
             >
               email@example.com
             </p>
+
           </div>
 
         </div>
@@ -115,310 +160,849 @@
       </header>
 
 
-      <!-- STATUS -->
-      <section class="status-card">
 
-        <div class="status-content">
+      <!-- =================================
+           ÜBERSICHT
+      ================================== -->
 
-          <p class="status-label">
-            ACCOUNT STATUS
-          </p>
+      <section
+        id="overviewPage"
+        class="dashboard-page active"
+      >
 
-          <h2>
-            Dein Account ist aktiv und geschützt.
-          </h2>
+        <section class="welcome-panel">
 
-          <p>
-            Deine Anmeldung wird über eine geschützte
-            Session verwaltet.
-          </p>
+          <div class="welcome-content">
 
-        </div>
+            <p class="section-label">
+              WILLKOMMEN ZURÜCK
+            </p>
 
+            <h2>
+              Hallo,
+              <span id="welcomeName">Nutzer</span>.
+            </h2>
 
-        <div class="status-badge">
+            <p>
+              Hier findest du eine Übersicht über deinen
+              Account und deine Sicherheitseinstellungen.
+            </p>
 
-          <span class="status-dot"></span>
-
-          Secure
-
-        </div>
-
-      </section>
+          </div>
 
 
-      <!-- CARDS -->
-      <section class="dashboard-grid">
+          <div class="account-active-badge">
+            <span></span>
+            Account aktiv
+          </div>
 
-        <article class="dashboard-card">
+        </section>
 
-          <div class="card-top">
 
-            <span class="card-label">
-              PROFIL
-            </span>
 
-            <span class="card-number">
+        <!-- STATUS CARDS -->
+
+        <section class="stats-grid">
+
+          <article class="stat-card">
+
+            <div class="stat-card-header">
+              <span>ACCOUNT</span>
+              <span class="stat-number">01</span>
+            </div>
+
+            <div class="stat-card-content">
+
+              <div class="status-icon success">
+                ✓
+              </div>
+
+              <h3>Aktiv</h3>
+
+              <p>
+                Dein Account ist aktiv und verfügbar.
+              </p>
+
+            </div>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <div class="stat-card-header">
+              <span>E-MAIL</span>
+              <span class="stat-number">02</span>
+            </div>
+
+            <div class="stat-card-content">
+
+              <div class="status-icon success">
+                ✓
+              </div>
+
+              <h3>Verifiziert</h3>
+
+              <p id="overviewEmail">
+                email@example.com
+              </p>
+
+            </div>
+
+          </article>
+
+
+          <article class="stat-card">
+
+            <div class="stat-card-header">
+              <span>SESSION</span>
+              <span class="stat-number">03</span>
+            </div>
+
+            <div class="stat-card-content">
+
+              <div class="status-icon success">
+                ●
+              </div>
+
+              <h3>Aktiv</h3>
+
+              <p>
+                Deine aktuelle Server-Session ist gültig.
+              </p>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- SECURITY OVERVIEW -->
+
+        <section class="content-panel">
+
+          <div class="panel-heading">
+
+            <div>
+              <p class="section-label">
+                SECURITY OVERVIEW
+              </p>
+
+              <h2>
+                Account-Sicherheit
+              </h2>
+            </div>
+
+            <button
+              class="secondary-button"
+              data-open-page="security"
+              type="button"
+            >
+              Sicherheit öffnen →
+            </button>
+
+          </div>
+
+
+          <div class="security-list">
+
+            <div class="security-row">
+
+              <div class="security-row-left">
+
+                <div class="security-indicator"></div>
+
+                <div>
+                  <strong>Passwort</strong>
+
+                  <p>
+                    Dein Passwort wird verschlüsselt gespeichert.
+                  </p>
+                </div>
+
+              </div>
+
+              <span class="status-text">
+                Geschützt
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-row-left">
+
+                <div class="security-indicator"></div>
+
+                <div>
+                  <strong>E-Mail-Adresse</strong>
+
+                  <p id="securityOverviewEmail">
+                    email@example.com
+                  </p>
+                </div>
+
+              </div>
+
+              <span class="status-text">
+                Verifiziert
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-row-left">
+
+                <div class="security-indicator"></div>
+
+                <div>
+                  <strong>Session</strong>
+
+                  <p>
+                    Aktuelle Anmeldung ist gültig.
+                  </p>
+                </div>
+
+              </div>
+
+              <span class="status-text">
+                Aktiv
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="quick-actions">
+
+          <button
+            class="action-card"
+            data-open-page="profile"
+            type="button"
+          >
+
+            <span class="action-number">
               01
             </span>
 
-          </div>
+            <div>
+              <h3>Profil verwalten</h3>
 
+              <p>
+                Persönliche Account-Daten anzeigen und bearbeiten.
+              </p>
+            </div>
 
-          <div class="card-content">
-
-            <h3>
-              Persönliche Daten
-            </h3>
-
-            <p>
-              Verwalte deine Account-Informationen
-              und persönlichen Daten.
-            </p>
-
-          </div>
-
-
-          <button class="card-button">
-            Profil öffnen
-            <span>→</span>
-          </button>
-
-        </article>
-
-
-        <article class="dashboard-card">
-
-          <div class="card-top">
-
-            <span class="card-label">
-              SECURITY
+            <span class="action-arrow">
+              →
             </span>
 
-            <span class="card-number">
+          </button>
+
+
+          <button
+            class="action-card"
+            data-open-page="security"
+            type="button"
+          >
+
+            <span class="action-number">
               02
             </span>
 
-          </div>
+            <div>
+              <h3>Passwort ändern</h3>
 
+              <p>
+                Sicherheitseinstellungen deines Accounts verwalten.
+              </p>
+            </div>
 
-          <div class="card-content">
+            <span class="action-arrow">
+              →
+            </span>
 
-            <h3>
-              Sicherheit
-            </h3>
-
-            <p>
-              Passwort, E-Mail-Verifizierung
-              und aktive Session verwalten.
-            </p>
-
-          </div>
-
-
-          <button class="card-button">
-            Sicherheit öffnen
-            <span>→</span>
           </button>
 
-        </article>
+        </section>
+
+      </section>
 
 
-        <article class="dashboard-card">
 
-          <div class="card-top">
+      <!-- =================================
+           PROFIL
+      ================================== -->
 
-            <span class="card-label">
-              SESSION
-            </span>
+      <section
+        id="profilePage"
+        class="dashboard-page"
+      >
 
-            <span class="card-number">
-              03
-            </span>
+        <section class="content-panel large-panel">
+
+          <div class="panel-heading">
+
+            <div>
+              <p class="section-label">
+                PERSONAL INFORMATION
+              </p>
+
+              <h2>
+                Mein Profil
+              </h2>
+            </div>
 
           </div>
 
 
-          <div class="card-content">
+          <div class="profile-details">
 
-            <h3>
-              Aktive Sitzung
-            </h3>
+            <div class="profile-detail-row">
+
+              <div>
+                <span class="detail-label">
+                  NAME
+                </span>
+
+                <strong id="profilePageName">
+                  Nutzer
+                </strong>
+              </div>
+
+              <button
+                id="editNameButton"
+                class="small-button"
+                type="button"
+              >
+                Bearbeiten
+              </button>
+
+            </div>
+
+
+            <div class="profile-detail-row">
+
+              <div>
+                <span class="detail-label">
+                  E-MAIL
+                </span>
+
+                <strong id="profilePageEmail">
+                  email@example.com
+                </strong>
+              </div>
+
+              <span class="verified-badge">
+                Verifiziert
+              </span>
+
+            </div>
+
+
+            <div class="profile-detail-row">
+
+              <div>
+                <span class="detail-label">
+                  ACCOUNT ID
+                </span>
+
+                <strong id="profilePageId">
+                  —
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+
+      <!-- =================================
+           SICHERHEIT
+      ================================== -->
+
+      <section
+        id="securityPage"
+        class="dashboard-page"
+      >
+
+        <section class="content-panel large-panel">
+
+          <div class="panel-heading">
+
+            <div>
+              <p class="section-label">
+                ACCOUNT SECURITY
+              </p>
+
+              <h2>
+                Sicherheit
+              </h2>
+            </div>
+
+          </div>
+
+
+          <div class="settings-list">
+
+
+            <!-- PASSWORD -->
+
+            <div class="setting-row">
+
+              <div class="setting-icon">
+                P
+              </div>
+
+              <div class="setting-content">
+
+                <strong>
+                  Passwort
+                </strong>
+
+                <p>
+                  Ändere regelmäßig dein Passwort und verwende
+                  ein einzigartiges Passwort.
+                </p>
+
+              </div>
+
+              <button
+                id="changePasswordButton"
+                class="small-button"
+                type="button"
+              >
+                Passwort ändern
+              </button>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="setting-row">
+
+              <div class="setting-icon">
+                @
+              </div>
+
+              <div class="setting-content">
+
+                <strong>
+                  E-Mail-Verifizierung
+                </strong>
+
+                <p id="securityEmail">
+                  email@example.com
+                </p>
+
+              </div>
+
+              <span class="verified-badge">
+                Verifiziert
+              </span>
+
+            </div>
+
+
+
+            <!-- 2FA -->
+
+            <div class="setting-row">
+
+              <div class="setting-icon">
+                2
+              </div>
+
+              <div class="setting-content">
+
+                <strong>
+                  Zwei-Faktor-Authentifizierung
+                </strong>
+
+                <p>
+                  Zusätzliche Sicherheit für deinen Account.
+                </p>
+
+              </div>
+
+              <span class="coming-soon">
+                Später
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+
+      <!-- =================================
+           SESSIONS
+      ================================== -->
+
+      <section
+        id="sessionsPage"
+        class="dashboard-page"
+      >
+
+        <section class="content-panel large-panel">
+
+          <div class="panel-heading">
+
+            <div>
+              <p class="section-label">
+                ACTIVE SESSIONS
+              </p>
+
+              <h2>
+                Sessions
+              </h2>
+            </div>
+
+          </div>
+
+
+          <div class="session-card">
+
+            <div class="session-device">
+
+              <div class="device-icon">
+                ◉
+              </div>
+
+              <div>
+                <strong>
+                  Aktuelle Sitzung
+                </strong>
+
+                <p>
+                  Dieses Gerät ist aktuell mit deinem Account verbunden.
+                </p>
+              </div>
+
+            </div>
+
+
+            <div class="current-session">
+              <span></span>
+              Aktiv
+            </div>
+
+          </div>
+
+
+          <div class="future-feature">
+
+            <span>
+              SESSION MANAGEMENT
+            </span>
 
             <p>
-              Deine aktuelle Anmeldung ist
-              über eine Server-Session verbunden.
+              Später kannst du hier aktive Geräte anzeigen
+              und einzelne Sitzungen abmelden.
             </p>
 
           </div>
 
-
-          <div class="session-state">
-            <span></span>
-            Aktiv
-          </div>
-
-        </article>
-
-        <div class="session-state">
-  <span></span>
-  Aktiv
-</div>
-
-</article>
-
-
-<!-- FINGERHUT CARD HIER EINFÜGEN -->
-
-<article class="dashboard-card fingerhut-card">
-
-  <div class="card-top">
-
-    <span class="card-label classified-label">
-      TOP SECRET
-    </span>
-
-    <span class="card-number">
-      04
-    </span>
-
-  </div>
-
-  <div class="card-content">
-
-    <h3>
-      Projekt FINGERHUT
-    </h3>
-
-    <p>
-      Klassifizierte Forschungsakte.
-      Zugriffsstufe OBSIDIAN-4.
-    </p>
-
-  </div>
-
-<!--<a href="/bilder/Fingerhut.jpg"class="card-button fingerhut-link"target="_blank">Akte öffnen
-    <span>→</span>
-  </a> -->
-
-</article>
-
-
-</section>
-
-
-<!-- LOWER PANEL -->
-<section class="activity-panel">
-      </section>
-
-
-      <!-- LOWER PANEL -->
-      <section class="activity-panel">
-
-        <div>
-
-          <p class="panel-label">
-            LETZTE AKTIVITÄT
-          </p>
-
-          <h2>
-            Account-Übersicht
-          </h2>
-
-        </div>
-
-
-        <div class="activity-list">
-
-          <div class="activity-item">
-
-            <div>
-              <p class="activity-title">
-                E-Mail-Adresse
-              </p>
-
-              <p
-                id="accountEmail"
-                class="activity-value"
-              >
-                email@example.com
-              </p>
-            </div>
-
-            <span class="verified">
-              Verifiziert
-            </span>
-
-          </div>
-
-
-          <div class="activity-item">
-
-            <div>
-              <p class="activity-title">
-                Session
-              </p>
-
-              <p class="activity-value">
-                Aktuell angemeldet
-              </p>
-            </div>
-
-            <span class="verified">
-              Aktiv
-            </span>
-
-          </div>
-
-        </div>
+        </section>
 
       </section>
+
 
     </main>
 
   </div>
-<script>
-  async function loadUser() {
-    try {
-      const response = await fetch("/api/me");
 
-      if (!response.ok) {
-        window.location.href = "/";
+
+
+  <script>
+
+    // =====================================
+    // USER LADEN
+    // =====================================
+
+    async function loadUser() {
+
+      try {
+
+        const response = await fetch("/api/me");
+
+        if (!response.ok) {
+          window.location.href = "/";
+          return;
+        }
+
+        const user = await response.json();
+
+        const initial =
+          user.name.charAt(0).toUpperCase();
+
+
+        // TOPBAR
+
+        document.getElementById("profileName").textContent =
+          user.name;
+
+        document.getElementById("profileEmail").textContent =
+          user.email;
+
+        document.getElementById("userInitial").textContent =
+          initial;
+
+
+        // SIDEBAR
+
+        document.getElementById("sidebarName").textContent =
+          user.name;
+
+        document.getElementById("sidebarInitial").textContent =
+          initial;
+
+
+        // OVERVIEW
+
+        document.getElementById("welcomeName").textContent =
+          user.name;
+
+        document.getElementById("overviewEmail").textContent =
+          user.email;
+
+        document.getElementById("securityOverviewEmail").textContent =
+          user.email;
+
+
+        // PROFILE PAGE
+
+        document.getElementById("profilePageName").textContent =
+          user.name;
+
+        document.getElementById("profilePageEmail").textContent =
+          user.email;
+
+        document.getElementById("profilePageId").textContent =
+          user.id;
+
+
+        // SECURITY
+
+        document.getElementById("securityEmail").textContent =
+          user.email;
+
+      } catch (error) {
+
+        console.error(
+          "Nutzerdaten konnten nicht geladen werden:",
+          error
+        );
+
+      }
+
+    }
+
+
+
+    // =====================================
+    // PAGE NAVIGATION
+    // =====================================
+
+    const navLinks =
+      document.querySelectorAll(".nav-link");
+
+    const pages = {
+      overview: {
+        element: document.getElementById("overviewPage"),
+        eyebrow: "ACCOUNT OVERVIEW",
+        title: "Übersicht"
+      },
+
+      profile: {
+        element: document.getElementById("profilePage"),
+        eyebrow: "PERSONAL INFORMATION",
+        title: "Mein Profil"
+      },
+
+      security: {
+        element: document.getElementById("securityPage"),
+        eyebrow: "ACCOUNT SECURITY",
+        title: "Sicherheit"
+      },
+
+      sessions: {
+        element: document.getElementById("sessionsPage"),
+        eyebrow: "ACTIVE SESSIONS",
+        title: "Sessions"
+      }
+    };
+
+
+    function openPage(pageName) {
+
+      const selectedPage = pages[pageName];
+
+      if (!selectedPage) {
         return;
       }
 
-      const user = await response.json();
 
-      document.getElementById("userName").textContent = user.name;
-      document.getElementById("profileName").textContent = user.name;
-      document.getElementById("profileEmail").textContent = user.email;
-      document.getElementById("accountEmail").textContent = user.email;
+      // Alle Seiten verstecken
 
-      document.getElementById("userInitial").textContent =
-        user.name.charAt(0).toUpperCase(); // BIG LETTER IN DAHSBOARD
+      Object.values(pages).forEach((page) => {
+        page.element.classList.remove("active");
+      });
 
-    } catch (error) {
-      console.log("Nutzerdaten konnten nicht geladen werden:", error);
+
+      // Gewählte Seite anzeigen
+
+      selectedPage.element.classList.add("active");
+
+
+      // Titel ändern
+
+      document.getElementById("pageEyebrow").textContent =
+        selectedPage.eyebrow;
+
+      document.getElementById("pageTitle").textContent =
+        selectedPage.title;
+
+
+      // Navigation aktualisieren
+
+      navLinks.forEach((link) => {
+
+        link.classList.toggle(
+          "active",
+          link.dataset.page === pageName
+        );
+
+      });
+
     }
-  }
 
-  loadUser();
-  const logoutButton = document.getElementById("logoutButton");
 
-logoutButton.addEventListener("click", async () => {
-  try {
-    const response = await fetch("/logout", {
-      method: "POST"
+
+    navLinks.forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        openPage(link.dataset.page);
+
+      });
+
     });
 
-    if (response.ok) {
-      window.location.href = "/";
-    }
 
-  } catch (error) {
-    console.log("Logout fehlgeschlagen:", error);
-  }
-});
-</script>
+
+    // Buttons innerhalb des Dashboards
+
+    document
+      .querySelectorAll("[data-open-page]")
+      .forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+          openPage(
+            button.dataset.openPage
+          );
+
+        });
+
+      });
+
+
+
+    // =====================================
+    // LOGOUT
+    // =====================================
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          const response =
+            await fetch("/logout", {
+              method: "POST"
+            });
+
+
+          if (response.ok) {
+
+            window.location.href = "/";
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            "Logout fehlgeschlagen:",
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+
+    // =====================================
+    // VORBEREITETE BUTTONS
+    // =====================================
+
+    document
+      .getElementById("changePasswordButton")
+      .addEventListener("click", () => {
+
+        alert(
+          "Die Passwort-ändern-Funktion bauen wir als Nächstes."
+        );
+
+      });
+
+
+    document
+      .getElementById("editNameButton")
+      .addEventListener("click", () => {
+
+        alert(
+          "Die Profilbearbeitung bauen wir danach."
+        );
+
+      });
+
+
+
+    // Start
+
+    loadUser();
+
+  </script>
+
 </body>
 </html>
