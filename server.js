@@ -138,15 +138,10 @@ if (error) {
     res.status(500).send("Registrierung fehlgeschlagen")
   }
 });
-// TEMPORÄR: IP DEBUGGEN
-app.get("/debug-ip", (req, res) => {
-  res.json({
-    ip: req.ip,
-    ips: req.ips,
-    forwardedFor: req.headers["x-forwarded-for"]
-  });
-});
+
+// =========================================
 // PASSWORD VERGESSEN ROUTE
+// ==========================================
 app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
 
   try {
@@ -173,6 +168,11 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
     const resetToken = crypto
     .randomBytes(32)
     .toString("hex");
+
+  const hashedResetToken = crypto
+  .createHash("sha256")
+  .update(resetToken)
+  .digest("hex");
 
     const resetExpires = new Date(
     Date.now() + 30 * 60 * 1000
@@ -386,6 +386,10 @@ app.post("/reset-password", async (req, res) => {
         .status(400)
         .send("Token oder Passwort fehlt.");
     }
+    const hashedToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
 
     if (password.length < 8) {
       return res
@@ -398,7 +402,7 @@ app.post("/reset-password", async (req, res) => {
   `SELECT * FROM users
    WHERE password_reset_token = $1
    AND password_reset_expires > NOW()`,
-  [token]
+  [hashedToken]
 );
 
 if (result.rows.length === 0) {
