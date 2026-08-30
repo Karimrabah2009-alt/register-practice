@@ -302,6 +302,8 @@ app.post("/login", loginLimiter, async (req, res) => {
     // Nutzer-ID in Session speichern
     req.session.userId = user.id // ID / 7,10,18;
 
+    req.session.sessionVersion = user.session_version;
+
     // Session sicher speichern
     req.session.save((error) => {
       if (error) {
@@ -324,26 +326,47 @@ app.post("/login", loginLimiter, async (req, res) => {
   }
 });
 
+async function requireValidSession(req, res, next) {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).send("Nicht eingeloggt");
+    }
 
+    const result = await db.query(
+      "SELECT session_version FROM users WHERE id = $1",
+      [req.session.userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).send("Session ungültig");
+    }
+
+    const user = result.rows[0];
+
+    if (req.session.sessionVersion !== user.session_version) {
+      req.session.destroy(() => {});
+      return res.status(401).send("Session abgelaufen. Bitte erneut einloggen.");
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Serverfehler");
+  }
+}
 // ========================================
 // GESCHÜTZTE DASHBOARD ROUTE
 // ========================================
 
 
-app.get("/dashboard", (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).send("Nicht eingeloggt");
-  }
-
+app.get("/dashboard", requireValidSession, (req, res) => {
+  
   res.sendFile(__dirname + "/dashboard.html");
 });
 
 //Daten des aktuell eingeloggten Nutzers für das Dashboard abrufen
-app.get("/api/me", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).send("Nicht eingeloggt");
-  }
-
+app.get("/api/me", requireValidSession,  async (req, res) => {
+ 
   const result = await db.query(
     "SELECT id, name, email FROM users WHERE id = $1",
     [req.session.userId]
@@ -415,11 +438,12 @@ if (result.rows.length === 0) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.query(
+ await db.query(
   `UPDATE users
    SET password = $1,
        password_reset_token = NULL,
-       password_reset_expires = NULL
+       password_reset_expires = NULL,
+       session_version = session_version + 1
    WHERE id = $2`,
   [hashedPassword, user.id]
 );
