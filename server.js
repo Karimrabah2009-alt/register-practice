@@ -182,7 +182,7 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
    SET password_reset_token = $1,
        password_reset_expires = $2
    WHERE id = $3`,
-  [resetToken, resetExpires, user.id]
+  [hashedResetToken, resetExpires, user.id]
 );
    const resetLink =
   `${process.env.APP_URL}/reset-password?token=${resetToken}`;
