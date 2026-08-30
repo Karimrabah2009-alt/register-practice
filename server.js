@@ -127,8 +127,16 @@ if (error) {
     res.status(500).send("Registrierung fehlgeschlagen")
   }
 });
+// TEMPORÄR: IP DEBUGGEN
+app.get("/debug-ip", (req, res) => {
+  res.json({
+    ip: req.ip,
+    ips: req.ips,
+    forwardedFor: req.headers["x-forwarded-for"]
+  });
+});
 // PASSWORD VERGESSEN ROUTE
-app.post("/forgot-password", async (req, res) => {
+app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
 
   try {
 
@@ -415,6 +423,9 @@ res.send("Passwort wurde erfolgreich geändert.");
 // ========================================
 // SERVER STARTEN
 // ========================================
+/* git add .
+git commit -m "Add forgot password rate limiter"
+git push */
 
 const PORT = process.env.PORT || 3000;
 
