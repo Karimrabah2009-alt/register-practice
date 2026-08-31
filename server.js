@@ -58,8 +58,6 @@ const forgotPasswordLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 3,
 
- 
-
   message: "Zu viele Passwort-Reset-Anfragen. Bitte versuche es später erneut."
 });
 // __________________________________________________
@@ -102,7 +100,7 @@ app.post("/register",registerLimiter, async (req, res) => {
 
    // MAIL SENDING BEI RESEND VERABEITET WORDEN IST 
    const { data, error } = await resend.emails.send({
-  from: "onboarding@resend.dev",
+   from: "Elredion <noreply@elredion.de>",
   to: email,
   subject: "Bestätige deine E-Mail-Adresse",
   html: `
@@ -160,7 +158,7 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
     if (
   user.password_reset_requested_at &&
   Date.now() - new Date(user.password_reset_requested_at).getTime() < 2 * 60 * 1000
-) {
+) { 
   return res.status(200).send(
     "Falls ein Account mit dieser E-Mail existiert, wurde eine Nachricht versendet."
   );
@@ -191,7 +189,7 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
 
 
    const { data, error } = await resend.emails.send({
-   from: "onboarding@resend.dev",
+   from: "Elredion <noreply@elredion.de>",
    to: user.email,
    subject: "Passwort zurücksetzen",
    html: `
