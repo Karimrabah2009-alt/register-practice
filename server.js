@@ -58,15 +58,7 @@ const forgotPasswordLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 3,
 
-  keyGenerator: (req) => {
-    const forwarded = req.headers["x-forwarded-for"];
-
-    if (forwarded) {
-      return forwarded.split(",")[0].trim();
-    }
-
-    return req.ip;
-  },
+ 
 
   message: "Zu viele Passwort-Reset-Anfragen. Bitte versuche es später erneut."
 });
@@ -310,22 +302,34 @@ app.post("/login", loginLimiter, async (req, res) => {
    }
 
     // Nutzer-ID in Session speichern
-    req.session.userId = user.id // ID / 7,10,18;
+   // Neue Session-ID erzeugen
+req.session.regenerate((error) => {
+  if (error) {
+    console.log(error);
 
-    req.session.sessionVersion = user.session_version;
+    return res
+      .status(500)
+      .send("Login fehlgeschlagen");
+  }
 
-    // Session sicher speichern
-    req.session.save((error) => {
-      if (error) {
-        console.log(error);
+  // Nutzer-Daten in die neue Session speichern
+  req.session.userId = user.id;
 
-        return res
-          .status(500)
-          .send("Login fehlgeschlagen");
-      }
+  req.session.sessionVersion = user.session_version;
 
-      res.send("Login erfolgreich");
-    });
+  // Neue Session speichern
+  req.session.save((error) => {
+    if (error) {
+      console.log(error);
+
+      return res
+        .status(500)
+        .send("Login fehlgeschlagen");
+    }
+
+    res.send("Login erfolgreich");
+  });
+});
 
   } catch (error) {
     console.log(error);
