@@ -9,9 +9,15 @@ const crypto = require("crypto");
 const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 
 
 const app = express();  // VARIABLEN NAME FÜR EXPRESS ANWENDUNG
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", "loopback");
