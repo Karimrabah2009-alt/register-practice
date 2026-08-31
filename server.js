@@ -453,6 +453,48 @@ app.post("/change-password", requireValidSession, async (req, res) => {
     res.status(500).send("Serverfehler");
   }
 });
+
+// =======================
+// CHANGE NAME ROUTE 
+// =======================
+app.post("/change-name", requireValidSession, async (req, res) => {
+  try {
+    const { newName } = req.body;
+
+    // Prüfen, ob überhaupt ein Name gesendet wurde
+    if (!newName) {
+      return res.status(400).send("Bitte gib einen Namen ein.");
+    }
+
+    // Leerzeichen am Anfang und Ende entfernen
+    const cleanName = newName.trim();
+
+    // Länge prüfen
+    if (cleanName.length < 2 || cleanName.length > 100) {
+      return res.status(400).send(
+        "Der Name muss zwischen 2 und 100 Zeichen lang sein."
+      );
+    }
+
+    // Namen in PostgreSQL ändern
+    await db.query(
+      "UPDATE users SET name = $1 WHERE id = $2",
+      [cleanName, req.session.userId]
+    );
+
+    // Neuen Namen ans Frontend zurückgeben
+    res.status(200).json({
+      message: "Name erfolgreich geändert.",
+      name: cleanName
+    });
+
+  } catch (error) {
+    console.error("Name ändern fehlgeschlagen:", error);
+
+    res.status(500).send("Serverfehler");
+  }
+});
+
 app.post("/logout", (req, res) => {
 
   req.session.destroy((error) => {

@@ -1172,6 +1172,30 @@ body {
 
   gap: 15px;
 }
+/* =========================================
+   EDIT NAME FORM
+========================================= */
+
+.edit-name-form {
+  display: none;
+
+  margin: 0 0 20px 0;
+  padding: 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface-light);
+}
+
+.edit-name-form.active {
+  display: block;
+  animation: pageFade 0.18s ease;
+}
+
+.edit-name-form .form-field {
+  max-width: 500px;
+}
 
 .form-field {
   display: flex;

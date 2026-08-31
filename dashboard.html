@@ -91,6 +91,7 @@
           </div>
 
           <div class="sidebar-user-info">
+
             <strong id="sidebarName">
               Nutzer
             </strong>
@@ -98,6 +99,7 @@
             <span>
               Angemeldet
             </span>
+
           </div>
 
         </div>
@@ -117,6 +119,7 @@
     </aside>
 
 
+
     <!-- =========================
          MAIN
     ========================== -->
@@ -124,9 +127,7 @@
     <main class="dashboard-main">
 
 
-      <!-- =========================
-           TOPBAR
-      ========================== -->
+      <!-- TOPBAR -->
 
       <header class="topbar">
 
@@ -175,6 +176,7 @@
       </header>
 
 
+
       <!-- =================================
            ÜBERSICHT
       ================================== -->
@@ -215,7 +217,8 @@
         </section>
 
 
-        <!-- STATUS CARDS -->
+
+        <!-- STATUS -->
 
         <section class="stats-grid">
 
@@ -232,9 +235,7 @@
                 ✓
               </div>
 
-              <h3>
-                Aktiv
-              </h3>
+              <h3>Aktiv</h3>
 
               <p>
                 Dein Account ist aktiv und verfügbar.
@@ -258,9 +259,7 @@
                 ✓
               </div>
 
-              <h3>
-                Verifiziert
-              </h3>
+              <h3>Verifiziert</h3>
 
               <p id="overviewEmail">
                 email@example.com
@@ -284,9 +283,7 @@
                 ●
               </div>
 
-              <h3>
-                Aktiv
-              </h3>
+              <h3>Aktiv</h3>
 
               <p>
                 Deine aktuelle Server-Session ist gültig.
@@ -297,6 +294,7 @@
           </article>
 
         </section>
+
 
 
         <!-- SECURITY OVERVIEW -->
@@ -416,6 +414,7 @@
         </section>
 
 
+
         <!-- QUICK ACTIONS -->
 
         <section class="quick-actions">
@@ -482,6 +481,7 @@
       </section>
 
 
+
       <!-- =================================
            PROFIL
       ================================== -->
@@ -512,6 +512,9 @@
 
           <div class="profile-details">
 
+
+            <!-- NAME -->
+
             <div class="profile-detail-row">
 
               <div>
@@ -526,6 +529,7 @@
 
               </div>
 
+
               <button
                 id="editNameButton"
                 class="small-button"
@@ -536,6 +540,64 @@
 
             </div>
 
+
+
+            <!-- NAME BEARBEITEN -->
+
+            <div
+              id="editNameForm"
+              class="edit-name-form"
+            >
+
+              <div class="form-field">
+
+                <label for="newName">
+                  Neuer Name
+                </label>
+
+                <input
+                  id="newName"
+                  type="text"
+                  maxlength="100"
+                  autocomplete="name"
+                  placeholder="Neuen Namen eingeben"
+                >
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  id="cancelNameButton"
+                  class="secondary-button"
+                  type="button"
+                >
+                  Abbrechen
+                </button>
+
+
+                <button
+                  id="saveNameButton"
+                  class="small-button"
+                  type="button"
+                >
+                  Speichern
+                </button>
+
+              </div>
+
+
+              <p
+                id="nameMessage"
+                class="password-message"
+              ></p>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
 
             <div class="profile-detail-row">
 
@@ -558,6 +620,9 @@
             </div>
 
 
+
+            <!-- ID -->
+
             <div class="profile-detail-row">
 
               <div>
@@ -579,6 +644,7 @@
         </section>
 
       </section>
+
 
 
       <!-- =================================
@@ -612,9 +678,7 @@
           <div class="settings-list">
 
 
-            <!-- =========================
-                 PASSWORD
-            ========================== -->
+            <!-- PASSWORD -->
 
             <div class="setting-row">
 
@@ -650,6 +714,7 @@
               </div>
 
             </div>
+
 
 
             <!-- PASSWORD FORM -->
@@ -718,6 +783,7 @@
                   Abbrechen
                 </button>
 
+
                 <button
                   id="savePasswordButton"
                   class="small-button"
@@ -737,9 +803,8 @@
             </div>
 
 
-            <!-- =========================
-                 EMAIL
-            ========================== -->
+
+            <!-- EMAIL -->
 
             <div class="setting-row">
 
@@ -768,9 +833,8 @@
             </div>
 
 
-            <!-- =========================
-                 2FA
-            ========================== -->
+
+            <!-- 2FA -->
 
             <div class="setting-row">
 
@@ -803,6 +867,7 @@
         </section>
 
       </section>
+
 
 
       <!-- =================================
@@ -887,430 +952,26 @@
   </div>
 
 
-<script>
 
-  // =====================================
-  // USER LADEN
-  // =====================================
+  <!-- =====================================
+       JAVASCRIPT
+  ====================================== -->
 
-  async function loadUser() {
-    try {
-      const response = await fetch("/api/me");
+  <script>
 
-      if (!response.ok) {
-        window.location.href = "/";
-        return;
-      }
+    // =====================================
+    // USER LADEN
+    // =====================================
 
-      const user = await response.json();
-
-      const initial =
-        user.name.charAt(0).toUpperCase();
-
-
-      // TOPBAR
-
-      document.getElementById("profileName").textContent =
-        user.name;
-
-      document.getElementById("profileEmail").textContent =
-        user.email;
-
-      document.getElementById("userInitial").textContent =
-        initial;
-
-
-      // SIDEBAR
-
-      document.getElementById("sidebarName").textContent =
-        user.name;
-
-      document.getElementById("sidebarInitial").textContent =
-        initial;
-
-
-      // OVERVIEW
-
-      document.getElementById("welcomeName").textContent =
-        user.name;
-
-      document.getElementById("overviewEmail").textContent =
-        user.email;
-
-      document.getElementById("securityOverviewEmail").textContent =
-        user.email;
-
-
-      // PROFILE
-
-      document.getElementById("profilePageName").textContent =
-        user.name;
-
-      document.getElementById("profilePageEmail").textContent =
-        user.email;
-
-      document.getElementById("profilePageId").textContent =
-        user.id;
-
-
-      // SECURITY
-
-      document.getElementById("securityEmail").textContent =
-        user.email;
-
-    } catch (error) {
-      console.error(
-        "Nutzerdaten konnten nicht geladen werden:",
-        error
-      );
-    }
-  }
-
-
-
-  // =====================================
-  // PAGE NAVIGATION
-  // =====================================
-
-  const navLinks =
-    document.querySelectorAll(".nav-link");
-
-
-  const pages = {
-    overview: {
-      element:
-        document.getElementById("overviewPage"),
-
-      eyebrow:
-        "ACCOUNT OVERVIEW",
-
-      title:
-        "Übersicht"
-    },
-
-
-    profile: {
-      element:
-        document.getElementById("profilePage"),
-
-      eyebrow:
-        "PERSONAL INFORMATION",
-
-      title:
-        "Mein Profil"
-    },
-
-
-    security: {
-      element:
-        document.getElementById("securityPage"),
-
-      eyebrow:
-        "ACCOUNT SECURITY",
-
-      title:
-        "Sicherheit"
-    },
-
-
-    sessions: {
-      element:
-        document.getElementById("sessionsPage"),
-
-      eyebrow:
-        "ACTIVE SESSIONS",
-
-      title:
-        "Sessions"
-    }
-  };
-
-
-  function openPage(pageName) {
-    const selectedPage =
-      pages[pageName];
-
-    if (!selectedPage) {
-      return;
-    }
-
-
-    Object.values(pages).forEach((page) => {
-      page.element.classList.remove("active");
-    });
-
-
-    selectedPage.element.classList.add("active");
-
-
-    document.getElementById("pageEyebrow").textContent =
-      selectedPage.eyebrow;
-
-    document.getElementById("pageTitle").textContent =
-      selectedPage.title;
-
-
-    navLinks.forEach((link) => {
-      link.classList.toggle(
-        "active",
-        link.dataset.page === pageName
-      );
-    });
-  }
-
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      openPage(link.dataset.page);
-    });
-  });
-
-
-  document
-    .querySelectorAll("[data-open-page]")
-    .forEach((button) => {
-
-      button.addEventListener("click", () => {
-        openPage(button.dataset.openPage);
-      });
-
-    });
-
-
-
-  // =====================================
-  // PASSWORT FORMULAR ÖFFNEN
-  // =====================================
-
-  const changePasswordButton =
-    document.getElementById(
-      "changePasswordButton"
-    );
-
-  const changePasswordForm =
-    document.getElementById(
-      "changePasswordForm"
-    );
-
-  const cancelPasswordButton =
-    document.getElementById(
-      "cancelPasswordButton"
-    );
-
-  const savePasswordButton =
-    document.getElementById(
-      "savePasswordButton"
-    );
-
-  const passwordMessage =
-    document.getElementById(
-      "passwordMessage"
-    );
-
-
-  changePasswordButton.addEventListener(
-    "click",
-    () => {
-
-      changePasswordForm.classList.add("active");
-
-      passwordMessage.textContent = "";
-
-      document
-        .getElementById("currentPassword")
-        .focus();
-
-    }
-  );
-
-
-
-  // =====================================
-  // PASSWORT FORMULAR ABBRECHEN
-  // =====================================
-
-  cancelPasswordButton.addEventListener(
-    "click",
-    () => {
-
-      changePasswordForm.classList.remove("active");
-
-      document.getElementById("currentPassword").value =
-        "";
-
-      document.getElementById("newPassword").value =
-        "";
-
-      passwordMessage.textContent =
-        "";
-
-    }
-  );
-
-
-
-  // =====================================
-  // PASSWORT ÄNDERN
-  // =====================================
-
-  savePasswordButton.addEventListener(
-    "click",
-    async () => {
-
-      const currentPassword =
-        document.getElementById(
-          "currentPassword"
-        ).value;
-
-      const newPassword =
-        document.getElementById(
-          "newPassword"
-        ).value;
-
-
-      // Alte Nachricht entfernen
-      passwordMessage.textContent = "";
-
-
-      // Frontend-Prüfung
-      if (!currentPassword || !newPassword) {
-
-        passwordMessage.textContent =
-          "Bitte fülle beide Felder aus.";
-
-        return;
-      }
-
-
-      if (newPassword.length < 8) {
-
-        passwordMessage.textContent =
-          "Das neue Passwort muss mindestens 8 Zeichen lang sein.";
-
-        return;
-      }
-
+    async function loadUser() {
 
       try {
 
-        // Button während Anfrage deaktivieren
-        savePasswordButton.disabled = true;
-
-        savePasswordButton.textContent =
-          "Wird gespeichert...";
-
-
         const response =
-          await fetch("/change-password", {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            body: JSON.stringify({
-              currentPassword,
-              newPassword
-            })
-
-          });
+          await fetch("/api/me");
 
 
-        const message =
-          await response.text();
-
-
-        // Server meldet Fehler
         if (!response.ok) {
-
-          passwordMessage.textContent =
-            message;
-
-          return;
-        }
-
-
-        // Erfolgreich
-        passwordMessage.textContent =
-          message;
-
-
-        // Passwortfelder leeren
-        document.getElementById(
-          "currentPassword"
-        ).value = "";
-
-        document.getElementById(
-          "newPassword"
-        ).value = "";
-
-
-      } catch (error) {
-
-        console.error(
-          "Passwort ändern fehlgeschlagen:",
-          error
-        );
-
-        passwordMessage.textContent =
-          "Verbindung zum Server fehlgeschlagen.";
-
-      } finally {
-
-        // Button wieder aktivieren
-        savePasswordButton.disabled = false;
-
-        savePasswordButton.textContent =
-          "Passwort speichern";
-
-      }
-
-    }
-  );
-
-
-
-  // =====================================
-  // PROFIL BEARBEITEN
-  // =====================================
-
-  document
-    .getElementById("editNameButton")
-    .addEventListener("click", () => {
-
-      alert(
-        "Die Profilbearbeitung bauen wir danach."
-      );
-
-    });
-
-
-
-  // =====================================
-  // LOGOUT
-  // =====================================
-
-  const logoutButton =
-    document.getElementById(
-      "logoutButton"
-    );
-
-
-  logoutButton.addEventListener(
-    "click",
-    async () => {
-
-      try {
-
-        const response =
-          await fetch("/logout", {
-            method: "POST"
-          });
-
-
-        if (response.ok) {
 
           window.location.href = "/";
 
@@ -1318,32 +979,739 @@
         }
 
 
-        console.error(
-          "Logout fehlgeschlagen."
-        );
+        const user =
+          await response.json();
+
+
+        const initial =
+          user.name.charAt(0).toUpperCase();
+
+
+
+        // TOPBAR
+
+        document.getElementById("profileName").textContent =
+          user.name;
+
+        document.getElementById("profileEmail").textContent =
+          user.email;
+
+        document.getElementById("userInitial").textContent =
+          initial;
+
+
+
+        // SIDEBAR
+
+        document.getElementById("sidebarName").textContent =
+          user.name;
+
+        document.getElementById("sidebarInitial").textContent =
+          initial;
+
+
+
+        // OVERVIEW
+
+        document.getElementById("welcomeName").textContent =
+          user.name;
+
+        document.getElementById("overviewEmail").textContent =
+          user.email;
+
+        document.getElementById("securityOverviewEmail").textContent =
+          user.email;
+
+
+
+        // PROFILE
+
+        document.getElementById("profilePageName").textContent =
+          user.name;
+
+        document.getElementById("profilePageEmail").textContent =
+          user.email;
+
+        document.getElementById("profilePageId").textContent =
+          user.id;
+
+
+
+        // SECURITY
+
+        document.getElementById("securityEmail").textContent =
+          user.email;
 
 
       } catch (error) {
 
         console.error(
-          "Logout fehlgeschlagen:",
+          "Nutzerdaten konnten nicht geladen werden:",
           error
         );
 
       }
 
     }
-  );
 
 
 
-  // =====================================
-  // START
-  // =====================================
+    // =====================================
+    // PAGE NAVIGATION
+    // =====================================
 
-  loadUser();
+    const navLinks =
+      document.querySelectorAll(".nav-link");
 
-</script>
+
+    const pages = {
+
+      overview: {
+
+        element:
+          document.getElementById("overviewPage"),
+
+        eyebrow:
+          "ACCOUNT OVERVIEW",
+
+        title:
+          "Übersicht"
+
+      },
+
+
+      profile: {
+
+        element:
+          document.getElementById("profilePage"),
+
+        eyebrow:
+          "PERSONAL INFORMATION",
+
+        title:
+          "Mein Profil"
+
+      },
+
+
+      security: {
+
+        element:
+          document.getElementById("securityPage"),
+
+        eyebrow:
+          "ACCOUNT SECURITY",
+
+        title:
+          "Sicherheit"
+
+      },
+
+
+      sessions: {
+
+        element:
+          document.getElementById("sessionsPage"),
+
+        eyebrow:
+          "ACTIVE SESSIONS",
+
+        title:
+          "Sessions"
+
+      }
+
+    };
+
+
+    function openPage(pageName) {
+
+      const selectedPage =
+        pages[pageName];
+
+
+      if (!selectedPage) {
+        return;
+      }
+
+
+      Object.values(pages).forEach((page) => {
+
+        page.element.classList.remove("active");
+
+      });
+
+
+      selectedPage.element.classList.add("active");
+
+
+      document.getElementById("pageEyebrow").textContent =
+        selectedPage.eyebrow;
+
+
+      document.getElementById("pageTitle").textContent =
+        selectedPage.title;
+
+
+      navLinks.forEach((link) => {
+
+        link.classList.toggle(
+          "active",
+          link.dataset.page === pageName
+        );
+
+      });
+
+    }
+
+
+    navLinks.forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        openPage(
+          link.dataset.page
+        );
+
+      });
+
+    });
+
+
+    document
+      .querySelectorAll("[data-open-page]")
+      .forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+          openPage(
+            button.dataset.openPage
+          );
+
+        });
+
+      });
+
+
+
+    // =====================================
+    // PASSWORT FORMULAR
+    // =====================================
+
+    const changePasswordButton =
+      document.getElementById(
+        "changePasswordButton"
+      );
+
+
+    const changePasswordForm =
+      document.getElementById(
+        "changePasswordForm"
+      );
+
+
+    const cancelPasswordButton =
+      document.getElementById(
+        "cancelPasswordButton"
+      );
+
+
+    const savePasswordButton =
+      document.getElementById(
+        "savePasswordButton"
+      );
+
+
+    const passwordMessage =
+      document.getElementById(
+        "passwordMessage"
+      );
+
+
+
+    // PASSWORT FORMULAR ÖFFNEN
+
+    changePasswordButton.addEventListener(
+      "click",
+      () => {
+
+        changePasswordForm.classList.add("active");
+
+        passwordMessage.textContent = "";
+
+        document
+          .getElementById("currentPassword")
+          .focus();
+
+      }
+    );
+
+
+
+    // PASSWORT FORMULAR SCHLIESSEN
+
+    cancelPasswordButton.addEventListener(
+      "click",
+      () => {
+
+        changePasswordForm.classList.remove("active");
+
+        document.getElementById("currentPassword").value =
+          "";
+
+        document.getElementById("newPassword").value =
+          "";
+
+        passwordMessage.textContent =
+          "";
+
+      }
+    );
+
+
+
+    // =====================================
+    // PASSWORT SPEICHERN
+    // =====================================
+
+    savePasswordButton.addEventListener(
+      "click",
+      async () => {
+
+        const currentPassword =
+          document.getElementById(
+            "currentPassword"
+          ).value;
+
+
+        const newPassword =
+          document.getElementById(
+            "newPassword"
+          ).value;
+
+
+        passwordMessage.textContent =
+          "";
+
+
+        if (!currentPassword || !newPassword) {
+
+          passwordMessage.textContent =
+            "Bitte fülle beide Felder aus.";
+
+          return;
+        }
+
+
+        if (newPassword.length < 8) {
+
+          passwordMessage.textContent =
+            "Das neue Passwort muss mindestens 8 Zeichen lang sein.";
+
+          return;
+        }
+
+
+        try {
+
+          savePasswordButton.disabled =
+            true;
+
+          savePasswordButton.textContent =
+            "Wird gespeichert...";
+
+
+          const response =
+            await fetch("/change-password", {
+
+              method: "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "application/json"
+
+              },
+
+              body: JSON.stringify({
+
+                currentPassword,
+                newPassword
+
+              })
+
+            });
+
+
+          const message =
+            await response.text();
+
+
+          if (!response.ok) {
+
+            passwordMessage.textContent =
+              message;
+
+            return;
+          }
+
+
+          passwordMessage.textContent =
+            message;
+
+
+          document.getElementById(
+            "currentPassword"
+          ).value = "";
+
+
+          document.getElementById(
+            "newPassword"
+          ).value = "";
+
+
+        } catch (error) {
+
+          console.error(
+            "Passwort ändern fehlgeschlagen:",
+            error
+          );
+
+
+          passwordMessage.textContent =
+            "Verbindung zum Server fehlgeschlagen.";
+
+
+        } finally {
+
+          savePasswordButton.disabled =
+            false;
+
+          savePasswordButton.textContent =
+            "Passwort speichern";
+
+        }
+
+      }
+    );
+
+
+
+    // =====================================
+    // PROFIL / NAME BEARBEITEN
+    // =====================================
+
+    const editNameButton =
+      document.getElementById(
+        "editNameButton"
+      );
+
+
+    const editNameForm =
+      document.getElementById(
+        "editNameForm"
+      );
+
+
+    const newNameInput =
+      document.getElementById(
+        "newName"
+      );
+
+
+    const saveNameButton =
+      document.getElementById(
+        "saveNameButton"
+      );
+
+
+    const cancelNameButton =
+      document.getElementById(
+        "cancelNameButton"
+      );
+
+
+    const nameMessage =
+      document.getElementById(
+        "nameMessage"
+      );
+
+
+
+    // NAME FORMULAR ÖFFNEN
+
+    editNameButton.addEventListener(
+      "click",
+      () => {
+
+        editNameForm.classList.add("active");
+
+
+        newNameInput.value =
+          document
+            .getElementById("profilePageName")
+            .textContent
+            .trim();
+
+
+        nameMessage.textContent =
+          "";
+
+
+        newNameInput.focus();
+
+      }
+    );
+
+
+
+    // NAME BEARBEITEN ABBRECHEN
+
+    cancelNameButton.addEventListener(
+      "click",
+      () => {
+
+        editNameForm.classList.remove("active");
+
+        newNameInput.value =
+          "";
+
+        nameMessage.textContent =
+          "";
+
+      }
+    );
+
+
+
+    // =====================================
+    // NAME SPEICHERN
+    // =====================================
+
+    saveNameButton.addEventListener(
+      "click",
+      async () => {
+
+        const newName =
+          newNameInput.value.trim();
+
+
+        nameMessage.textContent =
+          "";
+
+
+        if (newName.length < 2) {
+
+          nameMessage.textContent =
+            "Der Name muss mindestens 2 Zeichen lang sein.";
+
+          return;
+        }
+
+
+        if (newName.length > 100) {
+
+          nameMessage.textContent =
+            "Der Name darf maximal 100 Zeichen lang sein.";
+
+          return;
+        }
+
+
+        try {
+
+          saveNameButton.disabled =
+            true;
+
+          saveNameButton.textContent =
+            "Wird gespeichert...";
+
+
+          const response =
+            await fetch("/change-name", {
+
+              method: "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "application/json"
+
+              },
+
+              body: JSON.stringify({
+
+                newName
+
+              })
+
+            });
+
+
+
+          if (!response.ok) {
+
+            const message =
+              await response.text();
+
+
+            nameMessage.textContent =
+              message;
+
+
+            return;
+          }
+
+
+
+          const data =
+            await response.json();
+
+
+
+          // PROFIL AKTUALISIEREN
+
+          document.getElementById(
+            "profilePageName"
+          ).textContent = data.name;
+
+
+
+          // TOPBAR AKTUALISIEREN
+
+          document.getElementById(
+            "profileName"
+          ).textContent = data.name;
+
+
+
+          // SIDEBAR AKTUALISIEREN
+
+          document.getElementById(
+            "sidebarName"
+          ).textContent = data.name;
+
+
+
+          // WILLKOMMEN TEXT
+
+          document.getElementById(
+            "welcomeName"
+          ).textContent = data.name;
+
+
+
+          // INITIALEN AKTUALISIEREN
+
+          const initial =
+            data.name
+              .charAt(0)
+              .toUpperCase();
+
+
+          document.getElementById(
+            "userInitial"
+          ).textContent = initial;
+
+
+          document.getElementById(
+            "sidebarInitial"
+          ).textContent = initial;
+
+
+
+          nameMessage.textContent =
+            data.message;
+
+
+        } catch (error) {
+
+          console.error(
+            "Name ändern fehlgeschlagen:",
+            error
+          );
+
+
+          nameMessage.textContent =
+            "Verbindung zum Server fehlgeschlagen.";
+
+
+        } finally {
+
+          saveNameButton.disabled =
+            false;
+
+
+          saveNameButton.textContent =
+            "Speichern";
+
+        }
+
+      }
+    );
+
+
+
+    // =====================================
+    // LOGOUT
+    // =====================================
+
+    const logoutButton =
+      document.getElementById(
+        "logoutButton"
+      );
+
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          const response =
+            await fetch("/logout", {
+
+              method: "POST"
+
+            });
+
+
+          if (response.ok) {
+
+            window.location.href =
+              "/";
+
+            return;
+          }
+
+
+          console.error(
+            "Logout fehlgeschlagen."
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Logout fehlgeschlagen:",
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+
+    // =====================================
+    // START
+    // =====================================
+
+    loadUser();
+
+  </script>
+
 </body>
 
 </html>
