@@ -14,7 +14,7 @@ const rateLimit = require("express-rate-limit");
 const app = express();  // VARIABLEN NAME FÜR EXPRESS ANWENDUNG
 
 if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1);
+  app.set("trust proxy", "loopback");
 }
 
 app.use(express.json());
