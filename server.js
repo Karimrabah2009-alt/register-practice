@@ -583,7 +583,8 @@ git commit -m "Add forgot password rate limiter"
 git push */
 
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
-app.listen(PORT, () => {
-  console.log(`Server läuft auf Port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Server läuft auf ${HOST}:${PORT}`);
 });
