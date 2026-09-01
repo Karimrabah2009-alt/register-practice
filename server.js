@@ -13,9 +13,13 @@ const helmet = require("helmet");
 
 
 const app = express();  // VARIABLEN NAME FÜR EXPRESS ANWENDUNG
+
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    strictTransportSecurity: isProduction ? undefined : false,
   })
 );
 
