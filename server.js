@@ -18,7 +18,6 @@ const isProduction = process.env.NODE_ENV === "production";
 
 app.use(
   helmet({
-    contentSecurityPolicy: false,
     strictTransportSecurity: isProduction ? undefined : false,
   })
 );
