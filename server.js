@@ -10,6 +10,7 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
+const { csrfSync } = require("csrf-sync");
 
 
 const app = express();  // VARIABLEN NAME FÜR EXPRESS ANWENDUNG
@@ -50,6 +51,10 @@ app.use(
     }
   })
 );
+const {
+  generateToken,
+  csrfSynchronisedProtection
+} = csrfSync();
 
 app.use(express.static(__dirname + "/public"));
 
@@ -330,7 +335,7 @@ req.session.regenerate((error) => {
   req.session.sessionVersion = user.session_version;
 
 // Inaktivitäts-Timeout
-req.session.cookie.maxAge = 30 * 60 * 1000;
+
 
 
 
@@ -385,6 +390,13 @@ async function requireValidSession(req, res, next) {
     res.status(500).send("Serverfehler");
   }
 }
+app.get("/api/csrf-token", requireValidSession, (req, res) => {
+  const csrfToken = generateToken(req);
+
+  res.json({
+    csrfToken
+  });
+});
 // ========================================
 // GESCHÜTZTE DASHBOARD ROUTE
 // ========================================
@@ -411,7 +423,11 @@ app.get("/api/me", requireValidSession,  async (req, res) => {
     email: user.email
   });
 });
-app.post("/change-password", requireValidSession, async (req, res) => {
+app.post(
+  "/change-password",
+  requireValidSession,
+  csrfSynchronisedProtection,
+  async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -478,7 +494,11 @@ app.post("/change-password", requireValidSession, async (req, res) => {
 // =======================
 // CHANGE NAME ROUTE 
 // =======================
-app.post("/change-name", requireValidSession, async (req, res) => {
+app.post(
+  "/change-name",
+  requireValidSession,
+  csrfSynchronisedProtection,
+  async (req, res) => {
   try {
     const { newName } = req.body;
 
@@ -516,7 +536,11 @@ app.post("/change-name", requireValidSession, async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post(
+  "/logout",
+  requireValidSession,
+  csrfSynchronisedProtection,
+  (req, res) => {
 
   req.session.destroy((error) => {
 

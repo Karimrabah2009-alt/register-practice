@@ -1,6 +1,18 @@
  // =====================================
     // USER LADEN
     // =====================================
+     let csrfToken = null;
+
+async function loadCsrfToken() {
+  const response = await fetch("/api/csrf-token");
+
+  if (!response.ok) {
+    throw new Error("CSRF-Token konnte nicht geladen werden.");
+  }
+
+  const data = await response.json();
+  csrfToken = data.csrfToken;
+}
 
     async function loadUser() {
 
@@ -368,7 +380,8 @@
               headers: {
 
                 "Content-Type":
-                  "application/json"
+                  "application/json",
+                  "x-csrf-token": csrfToken
 
               },
 
@@ -574,7 +587,8 @@
               headers: {
 
                 "Content-Type":
-                  "application/json"
+                  "application/json",
+                  "x-csrf-token": csrfToken
 
               },
 
@@ -710,8 +724,10 @@
           const response =
             await fetch("/logout", {
 
-              method: "POST"
-
+              method: "POST",
+              headers: {
+                 "x-csrf-token": csrfToken
+              }
             });
 
 
@@ -747,7 +763,13 @@
     // START
     // =====================================
 
-    loadUser();
+    async function startDashboard() {
+  await loadCsrfToken();
+  await loadUser();
+}
+
+startDashboard();
+
 
  const SESSION_TIMEOUT = 30 * 60 * 1000;
 
