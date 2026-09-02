@@ -28,23 +28,29 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(express.json());
 
+
 app.use(
-    session({ // SESSION SORGT FÜR DIE ERKENNUNG EINES NUTZER SCHICKT COOKIE MIT AN WEITERE REQUESTS
-      store: new pgSession({
+  session({
+    store: new pgSession({
       pool: db,
       createTableIfMissing: true
     }),
-        secret: process.env.SESSION_SECRET, // CRYPTO SIGNIEREN SERVER ERKENNT MANIPULATION
-        resave: false, // nicht grundlos bei jeder request ändern
-        saveUninitialized: false,  // nur besuchen keien daten speichern
 
-      cookie:  {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+
+    rolling: true,
+
+    cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production"
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 30 * 60 * 1000
     }
   })
 );
+
 app.use(express.static(__dirname + "/public"));
 
 
@@ -321,8 +327,12 @@ req.session.regenerate((error) => {
 
   // Nutzer-Daten in die neue Session speichern
   req.session.userId = user.id;
-
   req.session.sessionVersion = user.session_version;
+
+// Inaktivitäts-Timeout
+req.session.cookie.maxAge = 30 * 60 * 1000;
+
+
 
   // Neue Session speichern
   req.session.save((error) => {
