@@ -90,17 +90,42 @@ app.post("/register",registerLimiter, async (req, res) => {
     if (!name || !email || !password) {
         return res.status(400).send("Alle felder müssen ausgefüllt werden");
     }
-    if (name.length < 3) {
+    if (
+  typeof name !== "string" ||
+  typeof email !== "string" ||
+  typeof password !== "string"
+   ) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
+
+   const cleanName = name.trim();
+   const normalizedEmail = email.trim().toLowerCase();
+
+
+    if (cleanName.length > 100) {
+     return res.status(400).send("Name darf maximal 100 Zeichen lang sein");
+  }
+
+  if (normalizedEmail.length > 254) {
+     return res.status(400).send("E-Mail-Adresse ist zu lang");
+  }
+
+    if (cleanName.length < 3) {
         return res.status(400).send("Name muss mindestens 3 zeichen lang sein");
     }
    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-   if (!emailRegex.test(email)) {
+   if (!emailRegex.test(normalizedEmail)) {
      return res.status(400).send("Ungültige E-mail Adresse");
    }
    if (password.length < 8 ){
      return res.status(400).send("Password muss mindestens 8 Zeichen lang sein");
    }
+   if (Buffer.byteLength(password, "utf8") > 72) {
+  return res.status(400).send("Passwort ist zu lang");
+}
+
+
 
     // warte auf bcrypt
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -121,18 +146,16 @@ app.post("/register",registerLimiter, async (req, res) => {
      (name, email, password, email_verified, verification_token, verification_token_expires) 
      VALUES ($1, $2, $3, $4, $5, $6)`,
                              
-     [name, email, hashedPassword, false, verificationTokenHash, verificationTokenExpires]);
+     [cleanName, normalizedEmail,  hashedPassword, false, verificationTokenHash, verificationTokenExpires]);
      
     // ERSTELLEN LINK
     const verificationLink =
    `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
-
- 
-
+   
    // MAIL SENDING BEI RESEND VERABEITET WORDEN IST 
    const { data, error } = await resend.emails.send({
    from: "Elredion <noreply@elredion.de>",
-  to: email,
+  to: normalizedEmail,
   subject: "Bestätige deine E-Mail-Adresse",
   html: `
     <h1>E-Mail bestätigen</h1>
@@ -172,10 +195,19 @@ app.post("/forgot-password", forgotPasswordLimiter, async (req, res) => {
     if (!email) {
       return res.status(400).send("E-Mail-Adresse fehlt.");
     }
+    if (typeof email !== "string") {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
+
+const normalizedEmail = email.trim().toLowerCase();
+
+if (normalizedEmail.length > 254) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
 
     const result = await db.query(
       "SELECT * FROM users WHERE email = $1",
-      [email]
+      [normalizedEmail]
     );
 
     if (result.rows.length === 0) {
@@ -324,10 +356,27 @@ app.post("/login", loginLimiter, async (req, res) => {
         .send("Email und Passwort müssen ausgefüllt werden");
     }
 
+    if (
+      typeof email !== "string" ||
+      typeof password !== "string"
+    ) {
+     return res.status(400).send("Ungültige Eingabedaten");
+    }
+
+const normalizedEmail = email.trim().toLowerCase();
+
+if (normalizedEmail.length > 254) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
+
+if (Buffer.byteLength(password, "utf8") > 72) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
+
     // Nutzer anhand seiner E-Mail suchen
     const result = await db.query(
       "SELECT * FROM users WHERE email = $1",
-      [email]
+      [normalizedEmail]
     );
 
     // Nutzer existiert nicht
@@ -476,13 +525,26 @@ app.post(
     if (!currentPassword || !newPassword) {
       return res.status(400).send("Bitte fülle alle Felder aus.");
     }
+    if (
+  typeof currentPassword !== "string" ||
+  typeof newPassword !== "string"
+) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
 
     if (newPassword.length < 8) {
       return res.status(400).send(
         "Das neue Passwort muss mindestens 8 Zeichen lang sein."
       );
     }
-
+    if (
+  Buffer.byteLength(currentPassword, "utf8") > 72 ||
+  Buffer.byteLength(newPassword, "utf8") > 72
+) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
+     
+     
     // 2. Nutzer aus Datenbank laden
     const result = await db.query(
       "SELECT id, password FROM users WHERE id = $1",
@@ -514,16 +576,28 @@ app.post(
     );
 
     // 5. Passwort speichern
-    await db.query(
-      `UPDATE users
-       SET password = $1
-       WHERE id = $2`,
-      [hashedPassword, user.id]
-    );
+    
+    const updateResult = await db.query(
+  `UPDATE users
+   SET password = $1,
+       session_version = session_version + 1
+   WHERE id = $2
+   RETURNING session_version`,
+  [hashedPassword, user.id]
+);
+req.session.sessionVersion =
+  updateResult.rows[0].session_version;
 
-    res.status(200).send(
-      "Passwort erfolgreich geändert."
-    );
+    req.session.save((error) => {
+  if (error) {
+    console.error("Session konnte nicht gespeichert werden:", error);
+    return res.status(500).send("Serverfehler");
+  }
+
+  res.status(200).send(
+    "Passwort erfolgreich geändert."
+  );
+});
 
   } catch (error) {
     console.error("Passwort ändern fehlgeschlagen:", error);
@@ -547,6 +621,9 @@ app.post(
     if (!newName) {
       return res.status(400).send("Bitte gib einen Namen ein.");
     }
+    if (typeof newName !== "string") {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
 
     // Leerzeichen am Anfang und Ende entfernen
     const cleanName = newName.trim();
@@ -590,7 +667,8 @@ app.post(
       return res.status(500).send("Logout fehlgeschlagen");
     }
 
-    res.send("Logout erfolgreich");
+    res.clearCookie("connect.sid");
+res.send("Logout erfolgreich");
   });
 
 });
@@ -609,6 +687,12 @@ app.post("/reset-password", async (req, res) => {
         .status(400)
         .send("Token oder Passwort fehlt.");
     }
+    if (
+  typeof token !== "string" ||
+  typeof password !== "string"
+) {
+  return res.status(400).send("Ungültige Eingabedaten");
+}
     const hashedToken = crypto
     .createHash("sha256")
     .update(token)
@@ -619,7 +703,11 @@ app.post("/reset-password", async (req, res) => {
         .status(400)
         .send("Das Passwort muss mindestens 8 Zeichen lang sein.");
     }
-
+    if (Buffer.byteLength(password, "utf8") > 72) {
+  return res
+    .status(400)
+    .send("Passwort ist zu lang");
+}
 
     const result = await db.query(
   `SELECT * FROM users
