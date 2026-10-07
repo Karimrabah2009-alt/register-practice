@@ -107,16 +107,27 @@ app.post("/register",registerLimiter, async (req, res) => {
 
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
+    const verificationTokenHash = crypto.createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
+
+  const verificationTokenExpires = new Date(
+  Date.now() + 24 * 60 * 60 * 1000
+);
+
     // warte auf insert 
     await db.query(
      `INSERT INTO users 
-     (name, email, password, email_verified, verification_token) 
-     VALUES ($1, $2, $3, $4, $5)`,
+     (name, email, password, email_verified, verification_token, verification_token_expires) 
+     VALUES ($1, $2, $3, $4, $5, $6)`,
                              
-     [name, email, hashedPassword, false, verificationToken]
-);  // ERSTELLEN LINK
+     [name, email, hashedPassword, false, verificationTokenHash, verificationTokenExpires]);
+     
+    // ERSTELLEN LINK
     const verificationLink =
    `${process.env.APP_URL}/verify-email?token=${verificationToken}`;
+
+ 
 
    // MAIL SENDING BEI RESEND VERABEITET WORDEN IST 
    const { data, error } = await resend.emails.send({
@@ -241,32 +252,62 @@ if (error) {
 });
 // EMAIL VERIFIZIERUNG
 
-app.get("/verify-email" , async (req, res) => {
-   try {
+app.get("/verify-email", async (req, res) => {
+  try {
     const { token } = req.query;
+
     if (!token) {
       return res.status(400).send("Verifizierungs-Token fehlt");
     }
-   // Nutzer anhand des Verifizierungs-Tokens in der Datenbank suchen
-    const result = await db.query (
-      "SELECT * FROM users WHERE verification_token = $1",
-      [token]
+
+    // Original-Token aus dem Link hashen
+    const tokenHash = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    // In der Datenbank liegt nur der Hash
+    const result = await db.query(
+      `SELECT id, verification_token_expires
+       FROM users
+       WHERE verification_token = $1`,
+      [tokenHash]
     );
+
     if (result.rows.length === 0) {
-      return res.status(400).send("Ungültiger Verifizierungs-Token");
-      // Warum leaken wird das token ungültig ist
+      return res
+        .status(400)
+        .send("Ungültiger oder abgelaufener Verifizierungs-Link");
     }
+
+    const user = result.rows[0];
+
+    // Prüfen, ob die 24 Stunden abgelaufen sind
+    if (
+      !user.verification_token_expires ||
+      new Date(user.verification_token_expires) < new Date()
+    ) {
+      return res
+        .status(400)
+        .send("Ungültiger oder abgelaufener Verifizierungs-Link");
+    }
+
+    // Account freischalten und Token anschließend vernichten
     await db.query(
       `UPDATE users
        SET email_verified = TRUE,
-       verification_token = NULL
-       WHERE verification_token = $1`,
-  [token]
- );
-  res.sendFile(__dirname + "/verify-success.html");
-   } catch  (error) {
-      res.status(500).send("E-Mail Bestätigung fehlgeschlagen");
-   }
+           verification_token = NULL,
+           verification_token_expires = NULL
+       WHERE id = $1`,
+      [user.id]
+    );
+
+    res.sendFile(__dirname + "/verify-success.html");
+
+  } catch (error) {
+    console.error("E-Mail-Verifizierung fehlgeschlagen:", error);
+    res.status(500).send("E-Mail-Bestätigung fehlgeschlagen");
+  }
 });
 
 // LOGIN ROUTE 
